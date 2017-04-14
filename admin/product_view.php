@@ -5,31 +5,14 @@
 	if($id){
 		$view=sql_fetch("select * from `gsw_product` where id='".$id."'");
 	}
-	$sql="select * from `gsw_category` order by `od` asc";
-	$query=sql_query($sql);
-	while($data=sql_fetch_array($query)){
-		$cate[]=$data;
-	}
-	$sql="select * from `gsw_sub_category` order by `od` asc";
-	$query=sql_query($sql);
-	while($data=sql_fetch_array($query)){
-		$cate2[]=$data;
-	}
-	$sql="select * from `gsw_code` order by `id` desc";
-	$query=sql_query($sql);
-	while($data=sql_fetch_array($query)){
-		$code[]=$data;
-	}
-	$sql="select * from `gsw_product` order by `id` desc";
-	$query=sql_query($sql);
-	while($data=sql_fetch_array($query)){
-		$prod[]=$data;
-	}
-	$view['code_sale_array']=explode("||",$view['code_sale']);
-	for($i=0;$i<count($view['code_sale_array']);$i++){
-		$view['code_sale_array'][$i]=explode("|",$view['code_sale_array'][$i]);
-	}
-	$view['cate_array']=explode("|",$view['category']);
+$color = explode(",",$view["color_title"]);
+$image = explode(",",$view["photo"]);
+$image1 = explode(",",$view["photo1"]);
+$image2 = explode(",",$view["photo2"]);
+$image3 = explode(",",$view["photo3"]);
+$image4 = explode(",",$view["photo4"]);
+
+
 ?>
 <style type="text/css">
 	.sound_only,.cke_sc{display:none;}
@@ -44,6 +27,12 @@
 		<article id="admin_academy_write">
 			<div class="adm-table02">
 				<table>
+                    <tr>
+                        <th>노출 순서 *</th>
+                        <td>
+                            <?php echo $view['order']; ?>
+                        </td>
+                    </tr>
 					<tr>
 						<th>제품명 *</th>
 						<td>
@@ -51,112 +40,119 @@
 						</td>
 					</tr>
 					<tr>
-						<th>영문명 *</th>
+						<th>모델명 *</th>
 						<td>
 							<?php echo $view['en_title']; ?>
 						</td>
 					</tr>
-					<tr>
-						<th>대분류 *</th>
-						<td>
-							<?php
-							if($view['category']){
-								for($i=0;$i<count($view['cate_array']);$i++){
-							?>
-							<div><?php echo $view['cate_array'][$i]; ?></div>
-							<?php
-								}
-							}
-							?>
-						</td>
-					</tr>
-					<tr>
-						<th>노출 순서 *</th>
-						<td>
-							<?php echo $view['order']; ?>
-						</td>
-					</tr>
-					<tr>
-						<th>정보 *</th>
-						<td>
-							<?php echo $view['info']; ?>
-						</td>
-					</tr>
-					<tr>
-						<th>개수 *</th>
-						<td>
-							<?php echo number_format($view['number']); ?>
-						</td>
-					</tr>
+                    <tr>
+                        <th>색상</th>
+                        <td>
+                            <table>
+                                <?php
+                                for($i=0;$i<count($color);$i++) {
+
+                                    $img[$i][0] = $image1[$i];
+                                    $img[$i][1] = $image2[$i];
+                                    $img[$i][2] = $image3[$i];
+                                    $img[$i][3] = $image4[$i];
+
+                                    ?>
+                                    <tr>
+                                        <th>색상</th>
+                                        <td><?=$color[$i]?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>이미지</th>
+                                        <td>
+                                                <?php
+                                                for($j=0;$j<count($img[$i]);$j++){
+                                                ?>
+                                                    <img src="<?php echo G5_DATA_URL;?>/product/<?php echo trim($img[$i][$j]);?>" alt="제품사진" style="width: 20%">
+                                                <?php
+                                                }
+                                                ?>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>제품 스펙</th>
+                        <td>
+                            <table>
+                                <?php
+                                $specs = explode("||",$view["specinfo"]);
+                                for($i=0;$i<count($specs);$i++){
+                                    $specinfo = explode("##",$specs[$i]);
+                                    ?>
+                                    <tr>
+                                        <th><?=$specinfo[0]?></th>
+                                        <td><?=$specinfo[1]?></td>
+                                    </tr>
+                                    <?
+                                }
+                                ?>
+                            </table>
+                        </td>
+                    </tr>
 					<tr>
 						<th>리스트 노출</th>
 						<td>
 							<?php echo $view['show']!=""&&$view['show']==1?"노출":"숨기기"; ?>
 						</td>
 					</tr>
+                    <tr>
+                        <th>품절</th>
+                        <td>
+                            <?php echo $view['out']!=""&&$view['out']==0?"-":"품절"; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>사전예약신청</th>
+                        <td>
+                            <?php echo $view['preorder']!=""&&$view['preorder']==0?"-":"사전예약중"; ?>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>요금제</th>
+                        <td>
+                            <table>
+                                <tr>
+                                    <th>요금제명</th>
+                                    <th>기본료</th>
+                                    <th>음성</th>
+                                    <th>SMS</th>
+                                    <th>제공데이터</th>
+                                </tr>
+
+                                <?php
+                                $callplans = explode("||",$view["calling_plan"]);
+                                for($i=0;$i<count($callplans);$i++){
+                                    $callp = explode("##",$callplans[$i]);
+                                    ?>
+                                    <tr>
+                                        <td><?=$callp[0]?></td>
+                                        <td><?=$callp[1]?></td>
+                                        <td><?=$callp[2]?></td>
+                                        <td><?=$callp[3]?></td>
+                                        <td><?=$callp[4]?></td>
+                                    </tr>
+                                    <?php
+                                }
+                                ?>
+                            </table>
+                        </td>
+                    </tr>
 					<tr>
-						<th>제품분류 *</th>
-						<td>
-							<?php echo $view['hospital']!=""&&$view['hospital']==2?"병원용":"일반용"; ?>
-						</td>
-					</tr>
-					<tr>
-						<th>품절</th>
-						<td>
-							<?php echo $view['out']!=""&&$view['out']==0?"-":"품절"; ?>
-						</td>
-					</tr>
-					<tr>
-						<th>사진 *</th>
-						<td>
-							<img src="<?php echo G5_DATA_URL."/product/".$view['photo']; ?>" alt="<?php echo $view['title']; ?>" />
-						</td>
-					</tr>
-					<tr>
-						<th>소비자가 *</th>
-						<td>
-							<?php echo number_format($view['price'],2); ?>
-						</td>
-					</tr>
-					<tr>
-						<th>무게 *</th>
-						<td>
-							<?php echo number_format($view['weight'],2); ?>kg
-						</td>
-					</tr>
-					<tr>
-						<th>코드별 할인율</th>
-						<td>
-							<?php
-							if($view['code_sale']){
-								for($i=0;$i<count($view['code_sale_array']);$i++){
-							?>
-							<div>
-								<?php for($j=0;$j<count($code);$j++){ ?>
-								<?php echo $code[$j]['id']==$view['code_sale_array'][$i][0]?$code[$j]['code']:""; ?> - 
-								<?php } ?>
-								<?php echo $view['code_sale_array'][$i][1]; ?>%
-							</div>
-							<?php
-								}
-							}
-							?>
-						</td>
-					</tr>
-					<tr>
-						<th>관련상품</th>
-						<td>
-							<?php
-							if($view['related_product']){
-								for($i=0;$i<count($view['related_product_array']);$i++){
-							?>
-							<div><?php echo $code[$j]['id']==$view['related_product_array'][$i]?$prod[$j]['title']:""; ?></div>
-							<?php
-								}
-							}
-							?>
-						</td>
-					</tr>
+                        <th>신청링크</th>
+                        <td>
+                            <?php echo $view["orderlink"];?>
+                        </td>
+                    </tr>
 					<tr>
 						<th>상세정보</th>
 						<td>

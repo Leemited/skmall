@@ -27,6 +27,7 @@ if (!$g5['lo_location'])
 $g5['lo_url'] = addslashes(clean_xss_tags($_SERVER['REQUEST_URI']));
 if (strstr($g5['lo_url'], '/'.G5_ADMIN_DIR.'/') || $is_admin == 'super') $g5['lo_url'] = '';
 
+
 /*
 // 만료된 페이지로 사용하시는 경우
 header("Cache-Control: no-cache"); // HTTP/1.1
@@ -45,22 +46,22 @@ if (G5_IS_MOBILE) {
     echo '<meta name="format-detection" content="telephone=no">'.PHP_EOL;
 } else {
     echo '<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1,maximum-scale=10,user-scalable=yes">'.PHP_EOL;
-    echo '<meta http-equiv="X-UA-Compatible" content="IE=10,chrome=1">'.PHP_EOL;
+    echo '<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">'.PHP_EOL;
 }
 
 if($config['cf_add_meta'])
     echo $config['cf_add_meta'].PHP_EOL;
 ?>
 <meta property="og:url" content="<?php echo G5_URL; ?>">
-<meta property="og:title" content="고릴라 스마트웨이">  
+<meta property="og:title" content="SKTSHOP">
 <meta property="og:type" content="website">
 <meta property="og:image" content="<?php echo G5_IMG_URL."/logo.png"; ?>">
-<meta property="og:description" content="Integrated Medical Solution GORILLA SMARTWAY">
-<meta name="description" content="GSW MALL - 한국우수 의료기기 판매유통서비스 + GSW ACADEMY - 의료전문가 육성교육 프로그램 + MEDIAL CONCIERGE - 해외환자 유치 원스탑 의료제공서비스">
-<title>GORILLA SMARTWAY</title>
+<meta property="og:description" content="SKTSHOP">
+<meta name="description" content="SKTSHOP">
+<title>SKTSHOP</title>
 <!-- 웹폰트 -->
 <link href='http://fonts.googleapis.com/earlyaccess/nanumgothic.css' rel='stylesheet' type='text/css' />
-<link href='http://fonts.googleapis.com/earlyaccess/notosanskr.css' rel='stylesheet' type='text/css' />
+<link href="//cdn.jsdelivr.net/nanumsquare/1.0/nanumsquare.css" rel="stylesheet" type="text/css">
 <?php
 if (defined('G5_IS_ADMIN')) {
     echo '<link rel="stylesheet" href="'.G5_ADMIN_URL.'/css/admin.css">'.PHP_EOL;
@@ -70,7 +71,10 @@ if (defined('G5_IS_ADMIN')) {
 ?>
 <link rel="stylesheet" href="<?php echo G5_CSS_URL."/owl.carousel.css"; ?>" />
 <link rel="stylesheet" href="<?php echo G5_CSS_URL."/owl.theme.default.css"; ?>" />
-<link rel="stylesheet" href="<?php echo G5_CSS_URL."/style.css"; ?>" />
+    <link rel="stylesheet" href="<?php echo G5_CSS_URL."/style.css"; ?>" />
+    <link rel="stylesheet" href="<?php echo G5_CSS_URL."/jquery.modal.css"; ?>" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/jquery.modal.js"></script>
 
 <!--[if lt IE 9]>
 	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -98,12 +102,12 @@ if ($is_admin) {
 }
 ?>
 </script>
-<script src="<?php echo G5_JS_URL ?>/jquery-1.8.3.min.js"></script>
-<script src="<?php echo G5_JS_URL ?>/jquery.menu.js"></script>
-<script src="<?php echo G5_JS_URL ?>/common.js"></script>
-<script src="<?php echo G5_JS_URL ?>/wrest.js"></script>
-<script src="<?php echo G5_JS_URL ?>/jquery.ba-hashchange.js"></script>
-<script src="<?php echo G5_JS_URL ?>/script.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/jquery-1.8.3.min.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/jquery.menu.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/common.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/wrest.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/jquery.ba-hashchange.js"></script>
+    <script src="<?php echo G5_JS_URL ?>/script.js"></script>
 <?php
 if(G5_IS_MOBILE) {
     echo '<script src="'.G5_JS_URL.'/modernizr.custom.70111.js"></script>'.PHP_EOL; // overflow scroll 감지

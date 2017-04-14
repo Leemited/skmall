@@ -54,6 +54,13 @@
 				<input type="hidden" name="sub_category" value="<?php echo $sub_category; ?>" />
 				<div class="adm-table02">
 					<table>
+                        <tr>
+                            <th>노출 순서 *</th>
+                            <td>
+                                <input type="text" name="order" required id="order" class="adm-input01 grid_100" value="<?php echo $write['order']?$write['order']:"0"; ?>" />
+                                <p>숫자가 작을수록 앞에 노출됩니다. 숫자 -2147483648에서 214748364까지 입력 하실수 있습니다.</p>
+                            </td>
+                        </tr>
 						<tr>
 							<th>제품명 *</th>
 							<td>
@@ -61,68 +68,133 @@
 							</td>
 						</tr>
 						<tr>
-							<th>영문명 *</th>
+							<th>모델명 *</th>
 							<td>
 								<input type="text" name="en_title" required id="en_title" class="adm-input01 grid_100" value="<?php echo $write['en_title']; ?>" />
 							</td>
 						</tr>
-						<tr>
-							<th>노출 순서 *</th>
-							<td>
-								<input type="text" name="order" required id="order" class="adm-input01 grid_100" value="<?php echo $write['order']?$write['order']:"0"; ?>" />
-								<p>숫자가 작을수록 앞에 노출됩니다. 숫자 -2147483648에서 214748364까지 입력 하실수 있습니다.</p>
-							</td>
-						</tr>
-						<tr>
+						<!--<tr>
 							<th>대분류1 *</th>
 							<td>
 								<div class="cate_div">
 								<?php
-								if($write['category']){
+/*								if($write['category']){
 									for($i=0;$i<count($write['category_arr']);$i++){
 										if($i==0)
 											$required="required";
-								?>
-								<select name="cate[]" <?php echo $required; ?> class="adm-input01 grid_100">
+								*/?>
+								<select name="cate[]" <?php /*echo $required; */?> class="adm-input01 grid_100">
 									<option value="">선택</option>
-									<?php for($j=0;$j<count($cate);$j++){ ?>
-									<option value="<?php echo $cate[$j]['cate']; ?>" <?php echo $cate[$j]['cate']==$write['category_arr'][$i]?"selected":""; ?>><?php echo $cate[$j]['cate']; ?></option>
-									<?php } ?>
+									<?php /*for($j=0;$j<count($cate);$j++){ */?>
+									<option value="<?php /*echo $cate[$j]['cate']; */?>" <?php /*echo $cate[$j]['cate']==$write['category_arr'][$i]?"selected":""; */?>><?php /*echo $cate[$j]['cate']; */?></option>
+									<?php /*} */?>
 								</select>
 								<?php
-									}
+/*									}
 								}else{
-								?>
+								*/?>
 								<select name="cate[]" required class="adm-input01 grid_100">
 									<option value="">선택</option>
-									<?php for($j=0;$j<count($cate);$j++){ ?>
-									<option value="<?php echo $cate[$j]['cate']; ?>" <?php echo $cate[$j]['cate']==$write['category']?"selected":""; ?>><?php echo $cate[$j]['cate']; ?></option>
-									<?php } ?>
+									<?php /*for($j=0;$j<count($cate);$j++){ */?>
+									<option value="<?php /*echo $cate[$j]['cate']; */?>" <?php /*echo $cate[$j]['cate']==$write['category']?"selected":""; */?>><?php /*echo $cate[$j]['cate']; */?></option>
+									<?php /*} */?>
 								</select>
-								<?php } ?>
+								<?php /*} */?>
 								</div>
 								<div class="text-right small_btn_group">
 									<a href="javascript:cate_add();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">추가</a>
 									<a href="javascript:cate_del();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">삭제</a>
 								</div>
 							</td>
-						</tr>
+						</tr>-->
+
+                        <tr>
+                            <th>색상 *</th>
+                            <td class="color">
+                                <a style="width:50px;cursor: pointer" class="addColor bg_gray white btn lh30">추가</a>
+                                <?php
+                                $color = explode(",",$write["color_title"]);
+                                $photo = explode(",",$write["photo"]);
+                                if(count($color)>0) {
+                                    for($i=0;$i<count($color);$i++){
+                                    ?>
+                                    <table class="table1">
+                                        <colgroup>
+                                            <col width="20%">
+                                            <col width="70%">
+                                            <col width="10%">
+                                        </colgroup>
+                                        <tr>
+                                            <th>색상</th>
+                                            <td><input type="text" name="color[]" class="adm-input01 grid_100" value="<?php echo $color[$i];?>"></td>
+                                            <td rowspan="3" style="text-align: center"><a
+                                                        style="width:50px;cursor: pointer"
+                                                        class="delColor bg_gray white btn lh30">삭제</a></td>
+                                        </tr>
+                                        <tr>
+                                            <th>제품 메인 사진 *</th>
+                                            <td>
+                                                <?php
+                                                if($photo[$i]){ echo $photo[$i];}
+                                                ?>
+                                                <input type="file" name="photo[]"
+                                                       id="photo" <?php echo $write['id'] ? "" : "required"; ?> />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>제품 사진 *</th>
+                                            <td>
+                                                <input type="file" name="photo1[]"
+                                                       id="photo1" <?php echo $write['id'] ? "" : "required"; ?> /> 정면
+                                                <br>
+                                                <input type="file" name="photo2[]"
+                                                       id="photo2" <?php echo $write['id'] ? "" : "required"; ?> /> 측면
+                                                <br>
+                                                <input type="file" name="photo3[]"
+                                                       id="photo3" <?php echo $write['id'] ? "" : "required"; ?> /> 후면
+                                                <br>
+                                                <input type="file" name="photo4[]"
+                                                       id="photo4" <?php echo $write['id'] ? "" : "required"; ?> /> 기타
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <?php
+                                    }
+                                }
+                                ?>
+                            </td>
+                        </tr>
 						<tr>
-							<th>정보 *</th>
+							<th>제품 스팩 *</th>
 							<td>
-								<textarea name="info" id="info" cols="30" rows="10" class="adm-input01 grid_100" style="height:100px;" required><?php echo strip_tags($write['info']); ?></textarea>
-							</td>
-						</tr>
-						<tr>
-                             <th>제품 분류 *</th>
-						    <td>
-						    <label for="hospital"><input type="checkbox" name="hospital" id="hospital" value="2" <?php echo $write['hospital']!=""&&$write['hospital']==0?"":"checked"; ?> /> 병원용</label>
-						    <label for="persnal"><input type="checkbox" name="persnal" id="persnal" value="3" <?php echo $write['persnal']!=""&&$write['persnal']==0?"":"checked"; ?> /> 일반용</label></td>
-						</tr>
-						<tr>
-							<th>개수 *</th>
-							<td>
-								<input type="text" name="number" required id="number" class="adm-input01 grid_100" value="<?php echo $write['number']; ?>" onkeyup="return number_only(this);" />
+                                <table class="spec">
+                                    <colgroup>
+                                        <col width="20%">
+                                        <col width="60%">
+                                        <col width="20%">
+                                    </colgroup>
+                                    <tr>
+                                        <th>스팩명</th>
+                                        <th>내용</th>
+                                        <th><a style="width:50px;cursor: pointer" class="addSpec bg_gray white btn lh30">추가</a></th>
+                                    </tr>
+                                    <?php
+                                    $spec_title = explode("||",$write["specinfo"]);
+                                    if(count($spec_title)>0) {
+                                        for($i=0;$i<count($spec_title);$i++){
+                                            $specs = explode("##", $spec_title[$i]);
+                                        ?>
+                                        <tr class="items<?= $i + 1 ?>">
+                                            <td><input type="text" name="spec[]" class="adm-input01 grid_100" value="<?=$specs[0]?>"></td>
+                                            <td><input type="text" name="specCon[]" class="adm-input01 grid_100" value="<?=$specs[1]?>"></td>
+                                            <td><a style="width:50px;cursor: pointer" class="delSpec bg_gray white btn lh30">삭제</a></td>
+                                        </tr>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
+                                </table>
+								<!--<textarea name="info" id="info" cols="30" rows="10" class="adm-input01 grid_100" style="height:100px;" required><?php /*echo strip_tags($write['info']); */?></textarea>-->
 							</td>
 						</tr>
 						<tr>
@@ -137,94 +209,86 @@
 								<label for="out"><input type="checkbox" name="out" id="out" value="1" <?php echo $write['out']!=""&&$write['out']==1?"checked":""; ?> /> 품절</label>
 							</td>
 						</tr>
+                        <tr>
+                            <th>사전예약</th>
+                            <td>
+                                <label for="preorder"><input type="checkbox" name="preorder" id="preorder" value="1" <?php echo $write['preorder']!=""&&$write['preorder']==1?"checked":""; ?> /> 사전예약신청중</label>
+                            </td>
+                        </tr>
 						<tr>
-							<th>사진 *</th>
+							<th>요금제등록 *</th>
 							<td>
-								<input type="file" name="photo" id="photo" <?php echo $write['id']?"":"required"; ?> />
+                                <table class="calling">
+                                    <tr>
+                                        <th>요금제명</th>
+                                        <th>기본료</th>
+                                        <th>음성(망내/망외)</th>
+                                        <th>SMS</th>
+                                        <th>제공데이터</th>
+                                        <th style="text-align: center"><a style="width:50px;cursor: pointer"  class="addRow bg_gray white btn lh30">추가</a></th>
+                                    </tr>
+                                    <?php
+                                    $call_plan = explode("||",$write["calling_plan"]);
+                                    if(count($call_plan)>0) {
+                                        for($i=0;$i<count($call_plan);$i++){
+                                            $call = explode("##" , $call_plan[$i]);
+                                        ?>
+                                        <tr class="item<?=$i+1?>">
+                                            <td><input type="text" name="callingplan[]" class="adm-input01 grid_100" value="<?php echo $call[0]; ?>">
+                                            </td>
+                                            <td><input type="text" name="price[]" class="adm-input01 grid_100" value="<?php echo $call[1]; ?>"></td>
+                                            <td><input type="text" name="voice[]" class="adm-input01 grid_100" value="<?php echo $call[2]; ?>"></td>
+                                            <td><input type="text" name="sms[]" class="adm-input01 grid_100" value="<?php echo $call[3]; ?>"></td>
+                                            <td><input type="text" name="data[]" class="adm-input01 grid_100" value="<?php echo $call[4]; ?>"></td>
+                                            <td style="text-align: center"><a style="width:50px;cursor: pointer" class="delRow bg_gray white btn lh30">삭제</a>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
+                                </table>
+								<!--<input type="text" name="price" required id="price" class="adm-input01 grid_100" value="<?php /*/*echo $write['price']; */?>" onkeyup="return number_only(this);" />-->
 							</td>
 						</tr>
 						<tr>
-							<th>소비자가 *</th>
+							<th>신청링크 *</th>
 							<td>
-								<input type="text" name="price" required id="price" class="adm-input01 grid_100" value="<?php echo $write['price']; ?>" onkeyup="return number_only(this);" />
+								<input type="text" name="orderlink" required id="orderlink" class="adm-input01 grid_100" value="<?php echo $write['orderlink']; ?>" />
 							</td>
 						</tr>
-						<tr>
-							<th>무게 *</th>
-							<td>
-								<input type="text" name="weight" required id="weight" class="adm-input01 grid_100" value="<?php echo $write['weight']; ?>" placeholder="kg" onkeyup="return float_only(this);" />
-							</td>
-						</tr>
-						<tr>
-							<th>코드별 할인율</th>
-							<td>
-								<div class="code_sale_div">
-									<?php
-									if($write['code_sale']){
-										for($i=0;$i<count($write['code_sale_array']);$i++){
-									?>
-									<div class="code_sale">
-										<select name="code[]" id="code[]" class="adm-input01 grid_20">
-											<option value="">선택</option>
-											<?php for($j=0;$j<count($code);$j++){ ?>
-											<option value="<?php echo $code[$j]['id']; ?>" <?php echo $code[$j]['id']==$write['code_sale_array'][$i][0]?"selected":""; ?>><?php echo $code[$j]['code']; ?></option>
-											<?php } ?>
-										</select>
-										<input type="text" name="sale[]" id="sale[]" class="adm-input01 grid_80" maxlength="2" onkeyup="return number_only(this);" value="<?php echo $write['code_sale_array'][$i][1]; ?>" />
-									</div>
-									<?php
-										}
-									}else{
-									?>
-									<div class="code_sale">
-										<select name="code[]" id="code[]" class="adm-input01 grid_20">
-											<option value="">선택</option>
-											<?php for($j=0;$j<count($code);$j++){ ?>
-											<option value="<?php echo $code[$j]['id']; ?>"><?php echo $code[$j]['code']; ?></option>
-											<?php } ?>
-										</select>
-										<input type="text" name="sale[]" id="sale[]" class="adm-input01 grid_80" maxlength="2" onkeyup="return number_only(this);" />
-									</div>
-									<?php } ?>
-								</div>
-								<div class="text-right small_btn_group">
-									<a href="javascript:code_sale_add();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">추가</a>
-									<a href="javascript:code_sale_del();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">삭제</a>
-								</div>
-							</td>
-						</tr>
-						<tr>
+						<!--<tr>
 							<th>관련상품</th>
 							<td>
 								<div class="related_product">
 									<?php
-									if($write['related_product']){
+/*									if($write['related_product']){
 										for($i=0;$i<count($write['related_product_array']);$i++){
-									?>
+									*/?>
 									<select name="related[]" id="related[]" class="adm-input01 grid_100">
 										<option value="">선택</option>
-										<?php for($j=0;$j<count($prod);$j++){ ?>
-										<option value="<?php echo $prod[$j]['id']; ?>" <?php echo $prod[$j]['id']==$write['related_product_array'][$i]?"selected":""; ?>><?php echo $prod[$j]['title']; ?></option>
-										<?php } ?>
+										<?php /*for($j=0;$j<count($prod);$j++){ */?>
+										<option value="<?php /*echo $prod[$j]['id']; */?>" <?php /*echo $prod[$j]['id']==$write['related_product_array'][$i]?"selected":""; */?>><?php /*echo $prod[$j]['title']; */?></option>
+										<?php /*} */?>
 									</select>
 									<?php
-										}
+/*										}
 									}else{
-									?>
+									*/?>
 									<select name="related[]" id="related[]" class="adm-input01 grid_100">
 										<option value="">선택</option>
-										<?php for($j=0;$j<count($prod);$j++){ ?>
-										<option value="<?php echo $prod[$j]['id']; ?>"><?php echo $prod[$j]['title']; ?></option>
-										<?php } ?>
+										<?php /*for($j=0;$j<count($prod);$j++){ */?>
+										<option value="<?php /*echo $prod[$j]['id']; */?>"><?php /*echo $prod[$j]['title']; */?></option>
+										<?php /*} */?>
 									</select>
-									<?php } ?>
+									<?php /*} */?>
 								</div>
 								<div class="text-right small_btn_group">
 									<a href="javascript:related_product_add();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">추가</a>
 									<a href="javascript:related_product_del();" style="width:50px;margin-top:3px;" class="bg_gray white btn lh30">삭제</a>
 								</div>
 							</td>
-						</tr>
+						</tr>-->
 						<tr>
 							<th>상세정보</th>
 							<td style="background:#fff;padding:0;">
@@ -309,6 +373,96 @@
 			div.find('select:last').remove();
 		}
 	}
+    $(document).on("click",".addColor",function () {
+        // item 의 최대번호 구하기
+        var lastItemNo = $(".color table:last").attr("class").replace("table", "");
+        var newitem = $(".color table:eq(0)").clone();
+        newitem.removeClass();
+        //newitem.find("td:eq(0)").attr("rowspan", "1");
+        newitem.addClass("s"+(parseInt(lastItemNo)+1));
+
+        $(".color").append(newitem);
+    })
+    $(document).on("click",".delColor",function () {
+        var lastItemNo = $(".color table").length;
+        alert(lastItemNo);
+        if(lastItemNo<=1){
+            alert("최소 1개 정보는 입력하셔야 합니다.");
+        }else {
+            var clickedRow = $(this).parent().parent().parent().parent();
+            var cls = clickedRow.attr("class");
+
+            // 각 항목의 첫번째 row를 삭제한 경우 다음 row에 td 하나를 추가해 준다.
+            if (clickedRow.find("table:eq(0)").attr("rowspan")) {
+                if (clickedRow.next().hasClass(cls)) {
+                    clickedRow.next().prepend(clickedRow.find("td:eq(0)"));
+                }
+            }
+
+            clickedRow.remove();
+        }
+    })
+
+    $(document).on("click",".addSpec",function () {
+        // item 의 최대번호 구하기
+        var lastItemNo = $(".spec tr:last").attr("class").replace("items", "");
+
+        var newitem = $(".spec tr:eq(1)").clone();
+        newitem.removeClass();
+        newitem.find("td:eq(0)").attr("rowspan", "1");
+        newitem.addClass("s"+(parseInt(lastItemNo)+1));
+
+        $(".spec").append(newitem);
+    })
+    $(document).on("click",".delSpec",function () {
+        var lastItemNo = $(".spec tr").length;
+        if(lastItemNo<=2){
+            alert("최소 1개 정보는 입력하셔야 합니다.");
+        }else {
+            var clickedRow = $(this).parent().parent();
+            var cls = clickedRow.attr("class");
+
+            // 각 항목의 첫번째 row를 삭제한 경우 다음 row에 td 하나를 추가해 준다.
+            if (clickedRow.find("td:eq(0)").attr("rowspan")) {
+                if (clickedRow.next().hasClass(cls)) {
+                    clickedRow.next().prepend(clickedRow.find("td:eq(0)"));
+                }
+            }
+
+            clickedRow.remove();
+        }
+    })
+
+    $(document).on("click",".addRow",function () {
+        // item 의 최대번호 구하기
+        var lastItemNo = $(".calling tr:last").attr("class").replace("item", "");
+
+        var newitem = $(".calling tr:eq(1)").clone();
+        newitem.removeClass();
+        newitem.find("td:eq(0)").attr("rowspan", "1");
+        newitem.addClass("item"+(parseInt(lastItemNo)+1));
+
+        $(".calling").append(newitem);
+    })
+    $(document).on("click",".delRow",function () {
+        var lastItemNo = $(".calling tr").length;
+        if(lastItemNo<=2){
+            alert("최소 1개 정보는 입력하셔야 합니다.");
+        }else {
+            var clickedRow = $(this).parent().parent();
+            var cls = clickedRow.attr("class");
+
+            // 각 항목의 첫번째 row를 삭제한 경우 다음 row에 td 하나를 추가해 준다.
+            if (clickedRow.find("td:eq(0)").attr("rowspan")) {
+                if (clickedRow.next().hasClass(cls)) {
+                    clickedRow.next().prepend(clickedRow.find("td:eq(0)"));
+                }
+            }
+
+            clickedRow.remove();
+        }
+    })
+
 </script>
 <?php
 	include_once(G5_PATH."/admin/tail.php");

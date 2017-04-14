@@ -1,8 +1,1 @@
-<?php
-/**
- * Created by PhpStorm.
- * User: Pc
- * Date: 2017-04-06
- * Time: 오후 1:44
- */
-echo "aaaaㅁㅁㅁ";
+<iframe src="https://tgate.sktelecom.com/applform/main.do?prod_seq=000000010724329&scrb_cl=02&mall_code=476032" frameborder="0" width="100%" height="100%"></iframe>

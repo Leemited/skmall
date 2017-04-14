@@ -2,7 +2,11 @@
 include_once('./_common.php');
 
 $g5['title'] = '로그인';
-include_once('./_head.php');
+if($is_admin || $is_member){
+    include_once('./_head.php');
+}else{
+    include_once('../head2.php');
+}
 
 $url = $_GET['url'];
 
@@ -10,13 +14,13 @@ $url = $_GET['url'];
 check_url_host($url);
 
 // 이미 로그인 중이라면
-if ($is_member) {
+/*ember) {
     if ($url)
         goto_url($url);
     else
         goto_url(G5_URL);
 }
-
+*/
 $login_url        = login_url($url);
 $login_action_url = G5_HTTPS_BBS_URL."/login_check.php";
 
@@ -27,5 +31,7 @@ if (!file_exists($login_file))
 
 include_once($member_skin_path.'/login.skin.php');
 
-include_once('./_tail.php');
+if($is_admin || $is_member) {
+    include_once('./_tail.php');
+}
 ?>

@@ -123,61 +123,36 @@
 			</header>
 			<ul data-accordion-group id="admin-menu">
 			<?php if($is_admin){ ?>
-				<li class="accordion" data-accordion>
+				<!--<li class="accordion" data-accordion>
 					<div data-control class="list-title">사이트관리</div>
 					<div data-content class="list-item">
-						<div><a href="<?php echo G5_URL."/admin/config.php"; ?>">기본정보관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/banner.php"; ?>">배너관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/popup.php"; ?>">팝업관리</a></div>
+						<!--<div><a href="<?php /*/*echo G5_URL."/admin/config.php"; */?>">기본정보관리</a></div>
+						<div><a href="<?php /*echo G5_URL."/admin/banner.php"; */?>">배너관리</a></div>
+						<!--<div><a href="<?php /*/*echo G5_URL."/admin/popup.php"; */?>">팝업관리</a></div>
 					</div>
-				</li>
+				</li>-->
 				<li class="accordion" data-accordion>
 					<div data-control class="list-title">회원관리</div>
 					<div data-content class="list-item">
 						<div><a href="<?php echo G5_URL."/admin/member_list.php"; ?>">회원관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/seller.php"; ?>">판매자관리</a></div>
-					</div>
-				</li>
-				<li class="accordion" data-accordion>
-					<div data-control class="list-title">온라인신청관리</div>
-					<div data-content class="list-item">
-						<div><a href="<?php echo G5_URL."/admin/academy.php"; ?>">아카데미관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/application.php"; ?>">온라인신청관리</a></div>
 					</div>
 				</li>
 				<li class="accordion" data-accordion>
 					<div data-control class="list-title">제품관리</div>
 					<div data-content class="list-item">
-						<div><a href="<?php echo G5_URL."/admin/category.php"; ?>">대분류관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/category_banner.php"; ?>">배너관리</a></div>
+						<!--<div><a href="<?php /*echo G5_URL."/admin/category.php"; */?>">대분류관리</a></div>-->
+						<!--<div><a href="<?php /*echo G5_URL."/admin/category_banner.php"; */?>">배너관리</a></div>-->
 						<div><a href="<?php echo G5_URL."/admin/product.php"; ?>">제품관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/delivery.php"; ?>">배송비관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/exchange.php"; ?>">환율관리</a></div>
-					</div>
-				</li>
-				<li class="accordion" data-accordion>
-					<div data-control class="list-title">판매관리</div>
-					<div data-content class="list-item">
-						<div><a href="<?php echo G5_URL."/admin/sell.php"; ?>">매출관리</a></div>
-						<div><a href="<?php echo G5_URL."/admin/refund.php"; ?>">환불관리</a></div>
+						<!--<div><a href="<?php /*echo G5_URL."/admin/delivery.php"; */?>">배송비관리</a></div>
+						<div><a href="<?php /*echo G5_URL."/admin/exchange.php"; */?>">환율관리</a></div>-->
 					</div>
 				</li>
 				<li class="accordion last-item" data-accordion>
 					<div><?=visit("basic")?></div>
 					<div><?=connect("basic")?></div>
 				</li>
-			<?php
-				}else{
-					if($code2['id']){
-			?>
-					<li class="accordion" data-accordion>
-						<div class="list-title" style="background:none;"><a href="<?php echo G5_URL."/admin/sell.php"; ?>">매출관리</a></div>
-					</li>
-			<?php
-					}
-				}
-			?>
+			<?php	} ?>
 			</ul>
-			<div id="copy">&copy; GORLLA SMARTWAY All Rights Reserved.</div>
+			<div id="copy">&copy; SKTSHOP All Rights Reserved.</div>
 		</aside>
 		<!-- 메뉴 end -->

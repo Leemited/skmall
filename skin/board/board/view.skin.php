@@ -4,40 +4,66 @@ include_once(G5_LIB_PATH.'/thumbnail.lib.php');
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+
+if($bo_table=="notice" || $bo_table == "review"){
+    $sitemap = "커뮤니티";
+    $link = G5_BBS_URL."/board.php?bo_table=review";
+}else{
+    $sitemap = "고객센터";
+    $link = G5_BBS_URL."/board.php?bo_table=inquiry";
+}
 ?>
 <script src="<?php echo G5_JS_URL; ?>/viewimageresize.js"></script>
-<section class="section01">
-	<header class="section01_header">
-		<h1>CONTACT</h1>
-		<p><a href="<?php echo G5_URL; ?>">HOME</a> &gt; <a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a> &gt; <a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>">Q&amp;A</a></p>
-	</header>
-	<nav class="section01_nav">
-		<ul>
-			<li><a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a></li>
-			<li class="active"><a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>">Q&amp;A</a></li>
-		</ul>
-	</nav>
+<section class="section02">
+    <header class="section02_header width-fixed">
+        <h1><?php echo $board['bo_subject'];?><span><a href="<?php echo G5_URL; ?>">HOME</a> &gt; <a href="<?php echo $link; ?>"><?php echo $sitemap; ?></a> &gt; <a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>"><?php echo $board['bo_subject'];?></a></span></h1>
+
+    </header>
 	<article class="section01_con width-fixed board_write01">
 		<div class="table01">
 			<table>
 				<thead>
 					<tr>
-						<th>主题</th>
-						<td>
-							<h1 style="margin-bottom:5px;">
+						<td colspan="2">
+							<h1>
 								<?php
 								if ($category_name) echo $view['ca_name'].' | '; // 분류 출력 끝
 								echo cut_str(get_text($view['wr_subject']), 70); // 글제목 출력
 								?>
 							</h1>
 							<div class="info" style="color:#666;">
-							<?php echo $view['name'] ?><?php if ($is_ip_view) { echo "&nbsp;($ip)"; } ?><br />
-							작성일 : <?php echo date("y-m-d H:i", strtotime($view['wr_datetime'])) ?>&nbsp;&nbsp;|&nbsp;조회 : <?php echo number_format($view['wr_hit']) ?>
+                                <div class="wr_name_icon"></div><?php echo $view['wr_name'] ?>&nbsp;&nbsp;|&nbsp;&nbsp;<div class="wr_time_icon"></div>작성일 : <?php echo date("y-m-d H:i", strtotime($view['wr_datetime'])) ?>&nbsp;&nbsp;|&nbsp;&nbsp;조회 : <?php echo number_format($view['wr_hit']) ?>
+                                <?php if($bo_table=="review"){
+                                    echo "&nbsp;&nbsp;|&nbsp;&nbsp;만족도 : ";
+                                    switch ($view["wr_3"]){
+                                        case "5":
+                                            echo "<span class='orange'>★★★★★</span>";
+                                            break;
+                                        case "4":
+                                            echo "<span class='orange'>★★★★☆</span>";
+                                            break;
+                                        case "3":
+                                            echo "<span class='orange'>★★★☆☆</span>";
+                                            break;
+                                        case "2":
+                                            echo "<span class='orange'>★★☆☆☆</span>";
+                                            break;
+                                        case "1":
+                                            echo "<span class='orange'>★☆☆☆☆</span>";
+                                            break;
+                                        case "0":
+                                            echo "<span class='orange'>☆☆☆☆☆</span>";
+                                            break;
+                                    }
+                                }?>
 							</div>
 						</td>
 					</tr>
 				</thead>
 				<tbody>
+                <tr>
+                    <td colspan="2" style="padding: 1px"></td>
+                </tr>
 				<?php
 				if ($view['file']['count']) {
 					$cnt = 0;
@@ -91,14 +117,23 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 				</tr>
 				</tbody>
 			</table>
+            <?php
+            // 코멘트 입출력
+                include_once('./view_comment.php');
+            ?>
 			<!-- 링크 버튼 시작 { -->
 			<ul class="btn_bo_adm">
-				<?php if ($update_href) { ?><li><a href="<?php echo $update_href ?>" class="btn02">修改</a></li><?php } ?>
-				<?php if ($delete_href) { ?><li><a href="<?php echo $delete_href ?>" class="btn02" onclick="del(this.href); return false;">删除</a></li><?php } ?>
-				<?php if ($search_href) { ?><li><a href="<?php echo $search_href ?>" class="btn02">恢复</a></li><?php } ?>
-				<li><a href="<?php echo $list_href ?>" class="btn02">名单</a></li>
-				<?php if ($reply_href) { ?><li><a href="<?php echo $reply_href ?>" class="btn02">答案</a></li><?php } ?>
-				<?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn02">写作</a></li><?php } ?>
+
+				<?php if ($update_href) { ?><li><a href="<?php echo $update_href ?>" class="inquiryBtn">수정</a></li><?php } ?>
+				<?php if ($delete_href) { ?><li><a href="<?php echo $delete_href ?>" class="inquiryBtn" onclick="del(this.href); return false;">삭제</a></li><?php } ?>
+				<?php if ($search_href) { ?><li><a href="<?php echo $search_href ?>" class="inquiryBtn">검색</a></li><?php } ?>
+				<li><a href="<?php echo $list_href ?>" class="inquiryBtn">목록</a></li>
+				<?php if ($reply_href) { ?><li><a href="<?php echo $reply_href ?>" class="inquiryBtn">답글</a></li><?php } ?>
+				<?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="inquiryBtn">글쓰기</a></li><?php } ?>
+                <?php if ($prev_href || $next_href) { ?>
+                <?php if ($prev_href) { ?><li class="left"><a href="<?php echo $prev_href ?>" class="inquiryBtn">이전글</a></li><?php } ?>
+                <?php if ($next_href) { ?><li class="right"><a href="<?php echo $next_href ?>" class="inquiryBtn">다음글</a></li><?php } ?>
+                <?php } ?>
 			</ul>
 		</div>
 	</article>

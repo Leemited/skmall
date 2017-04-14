@@ -3,18 +3,19 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+if($bo_table=="notice" || $bo_table == "review"){
+    $sitemap = "커뮤니티";
+    $link = G5_BBS_URL."/board.php?bo_table=review";
+}else{
+    $sitemap = "고객센터";
+    $link = G5_BBS_URL."/board.php?bo_table=inquiry";
+}
 ?>
-<section class="section01">
-	<header class="section01_header">
-		<h1>CONTACT</h1>
-		<p><a href="<?php echo G5_URL; ?>">HOME</a> &gt; <a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a> &gt; <a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>">Q&amp;A</a></p>
-	</header>
-	<nav class="section01_nav">
-		<ul>
-			<li><a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a></li>
-			<li class="active"><a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>">Q&amp;A</a></li>
-		</ul>
-	</nav>
+<section class="section02">
+    <header class="section02_header width-fixed">
+        <h1><?php echo $board['bo_subject'];?><span><a href="<?php echo G5_URL; ?>">HOME</a> &gt; <a href="<?php echo $link; ?>"><?php echo $sitemap; ?></a> &gt; <a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>"><?php echo $board['bo_subject'];?></a></span></h1>
+
+    </header>
 	<article class="section01_con width-fixed board_write01">
 		<!-- 게시물 작성/수정 시작 { -->
 		<form name="fwrite" id="fwrite" action="<?php echo $action_url ?>" onsubmit="return fwrite_submit(this);" method="post" enctype="multipart/form-data" autocomplete="off" style="width:<?php echo $width; ?>">
@@ -35,7 +36,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 		if ($is_notice || $is_html || $is_secret || $is_mail) {
 			$option = '';
 			if ($is_notice) {
-				$option .= "\n".'<input type="checkbox" id="notice" name="notice" value="1" '.$notice_checked.'>'."\n".'<label for="notice">公告</label>';
+				$option .= "\n".'<input type="checkbox" id="notice" name="notice" value="1" '.$notice_checked.'>'."\n".'<label for="notice">공지</label>';
 			}
 
 			if ($is_html) {
@@ -48,7 +49,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 
 			if ($is_secret) {
 				if ($is_admin || $is_secret==1) {
-					$option .= "\n".'<input type="checkbox" id="secret" name="secret" value="secret" '.$secret_checked.'>'."\n".'<label for="secret">秘密</label>';
+					$option .= "\n".'<input type="checkbox" id="secret" name="secret" value="secret" '.$secret_checked.'>'."\n".'<label for="secret">비밀글</label>';
 				} else {
 					$option_hidden .= '<input type="hidden" name="secret" value="secret">';
 				}
@@ -65,48 +66,89 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 		<div class="table01">
 			<table>
 			<tbody>
-			<?php if ($is_name) { ?>
+			<?php if (!$is_admin && ($bo_table != "notice" || $bo_table != "qna")) { ?>
 			<tr>
-				<th scope="row"><label for="wr_name">名称<strong class="sound_only">필수</strong></label></th>
-				<td><input type="text" name="wr_name" value="<?php echo $name ?>" id="wr_name" required class="input03 grid_100" size="10" maxlength="20"></td>
+				<th scope="row"><label for="wr_name">이름<strong class="sound_only">필수</strong></label></th>
+				<td><input type="text" name="wr_name" value="<?php echo $name ?>" id="wr_name" required class="input03 grid_30" size="10" maxlength="20"></td>
 			</tr>
 			<?php } ?>
 
-			<?php if ($is_password) { ?>
+			<?php /*if ($is_email) { */?><!--
 			<tr>
-				<th scope="row"><label for="wr_password">密码<strong class="sound_only">필수</strong></label></th>
-				<td><input type="password" name="wr_password" id="wr_password" <?php echo $password_required ?>  class="input03 grid_100" maxlength="20"></td>
+				<th scope="row"><label for="wr_email">이메일</label></th>
+				<td><input type="email" name="wr_email" value="<?php /*echo $email */?>" id="wr_email" class="input03 grid_100" size="50" maxlength="100"></td>
 			</tr>
-			<?php } ?>
+			--><?php /*} */?>
 
-			<?php if ($is_email) { ?>
+			<?php /*if ($option) { */?><!--
 			<tr>
-				<th scope="row"><label for="wr_email">电子邮件</label></th>
-				<td><input type="email" name="wr_email" value="<?php echo $email ?>" id="wr_email" class="input03 grid_100" size="50" maxlength="100"></td>
+				<th scope="row">옵션</th>
+				<td><?php /*echo $option */?></td>
 			</tr>
-			<?php } ?>
+			--><?php /*} */?>
 
-			<?php if ($option) { ?>
+			<?php /*if ($is_category) { */?><!--
 			<tr>
-				<th scope="row">选项</th>
-				<td><?php echo $option ?></td>
-			</tr>
-			<?php } ?>
-
-			<?php if ($is_category) { ?>
-			<tr>
-				<th scope="row"><label for="ca_name">分类<strong class="sound_only">필수</strong></label></th>
+				<th scope="row"><label for="ca_name">카테고리<strong class="sound_only">필수</strong></label></th>
 				<td>
 					<select name="ca_name" id="ca_name" required class="required" >
 						<option value="">선택하세요</option>
-						<?php echo $category_option ?>
+						<?php /*echo $category_option */?>
 					</select>
 				</td>
 			</tr>
-			<?php } ?>
-
+			--><?php /*} */?>
+            <?php if ($bo_table=="review" || $bo_table=="inquiry") { ?>
 			<tr>
-				<th scope="row"><label for="wr_subject">学科<strong class="sound_only">필수</strong></label></th>
+				<th scope="row"><label for="wr_1">제품선택<strong class="sound_only">필수</strong></label></th>
+				<td>
+					<select name="wr_1" id="wr_1" required class="input03 grid_30" >
+						<option value="">선택하세요</option>
+						<?php
+                        $sql = "SELECT * FROM `gsw_product` WHERE `show` = 1";
+                        $res = sql_query($sql);
+                        for($i=0;$row=sql_fetch_array($res);$i++) {
+                            ?>
+                            <option value="<?php echo $row["id"];?>" <?php if($wr_1==$row["id"]){?>selected<?php }?> ><?php echo $row["title"]?></option>
+                            <?php
+                        }
+                        ?>
+					</select>
+				</td>
+			</tr>
+            <?php } if ($bo_table=="review") { ?>
+            <tr>
+                <th scope="row"><label for="wr_3">만족도<strong class="sound_only">필수</strong></label></th>
+                <td>
+                    <select name="wr_3" id="wr_3" required class="input03 grid_30" >
+                        <option value="">선택하세요</option>
+                        <option value="5">★★★★★</option>
+                        <option value="4">★★★★☆</option>
+                        <option value="3">★★★☆☆</option>
+                        <option value="2">★★☆☆☆</option>
+                        <option value="1">★☆☆☆☆</option>
+                        <option value="0">☆☆☆☆☆</option>
+                    </select>
+                </td>
+            </tr>
+			<?php } ?>
+            <?php if ($bo_table=="inquiry") { ?>
+                <tr>
+                    <th scope="row"><label for="wr_password">비밀번호<strong class="sound_only">필수</strong></label></th>
+                    <td>
+                        <input type="hidden" name="secret" value="secret">
+                        <input type="password" name="wr_password" id="wr_password" <?php echo $password_required ?> required class="input03 grid_30" maxlength="20">
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row"><label for="wr_2">연락처<strong class="sound_only">필수</strong></label></th>
+                    <td>
+                        <input type="text" name="wr_2" id="wr_2" <?php echo $password_required ?> required class="input03 grid_30" >
+                    </td>
+                </tr>
+            <?php } ?>
+			<tr>
+				<th scope="row"><label for="wr_subject">제목<strong class="sound_only">필수</strong></label></th>
 				<td>
 					<div id="autosave_wrapper">
 						<input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="input03 grid_100" size="50" maxlength="255">
@@ -115,7 +157,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 			</tr>
 
 			<tr>
-				<th scope="row"><label for="wr_content">内容<strong class="sound_only">필수</strong></label></th>
+				<th scope="row"><label for="wr_content">내용<strong class="sound_only">필수</strong></label></th>
 				<td class="wr_content">
 					<?php if($write_min || $write_max) { ?>
 					<!-- 최소/최대 글자 수 사용 시 -->
@@ -128,24 +170,34 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 					<?php } ?>
 				</td>
 			</tr>
-			<?php for ($i=0; $is_file && $i<$file_count; $i++) { ?>
-			<tr>
-				<th scope="row">FILE #<?php echo $i+1 ?></th>
-				<td>
-					<input type="file" name="bf_file[]" title="파일첨부 <?php echo $i+1 ?> : 용량 <?php echo $upload_max_filesize ?> 이하만 업로드 가능" class="input03 grid_100">
-					<?php if ($is_file_content) { ?>
-					<input type="text" name="bf_content[]" value="<?php echo ($w == 'u') ? $file[$i]['bf_content'] : ''; ?>" title="파일 설명을 입력해주세요."  class="input03 grid_100" size="50">
-					<?php } ?>
-					<?php if($w == 'u' && $file[$i]['file']) { ?>
-					<input type="checkbox" id="bf_file_del<?php echo $i ?>" name="bf_file_del[<?php echo $i;  ?>]" value="1"> <label for="bf_file_del<?php echo $i ?>"><?php echo $file[$i]['source'].'('.$file[$i]['size'].')';  ?> FILE DELETE</label>
-					<?php } ?>
-				</td>
-			</tr>
-			<?php } ?>
+            <?php
+            if($bo_table=="notice") {
+                for ($i = 0; $is_file && $i < $file_count; $i++) { ?>
+                    <tr>
+                        <th scope="row">FILE #<?php echo $i + 1 ?></th>
+                        <td>
+                            <input type="file" name="bf_file[]"
+                                   title="파일첨부 <?php echo $i + 1 ?> : 용량 <?php echo $upload_max_filesize ?> 이하만 업로드 가능"
+                                   class="input03 grid_100">
+                            <?php if ($is_file_content) { ?>
+                                <input type="text" name="bf_content[]"
+                                       value="<?php echo ($w == 'u') ? $file[$i]['bf_content'] : ''; ?>"
+                                       title="파일 설명을 입력해주세요." class="input03 grid_100" size="50">
+                            <?php } ?>
+                            <?php if ($w == 'u' && $file[$i]['file']) { ?>
+                                <input type="checkbox" id="bf_file_del<?php echo $i ?>"
+                                       name="bf_file_del[<?php echo $i; ?>]" value="1"> <label
+                                        for="bf_file_del<?php echo $i ?>"><?php echo $file[$i]['source'] . '(' . $file[$i]['size'] . ')'; ?>
+                                    FILE DELETE</label>
+                            <?php } ?>
+                        </td>
+                    </tr>
+                <?php }
+            }?>
 
 			<?php if ($is_guest) { //자동등록방지  ?>
 			<tr>
-				<th scope="row">防止自动注册</th>
+				<th scope="row">자동등록방지</th>
 				<td>
 					<?php echo $captcha_html ?>
 				</td>
@@ -156,7 +208,7 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
 			</table>
 		</div>
 		<div class="text-center btn_group">
-			<input type="submit" value="完成" accesskey="s" class="btn01"/>
+			<input type="submit" value="등록" accesskey="s" class="inquiryBtn"/>
 		</div>
 		</form>
 	</article>

@@ -15,88 +15,46 @@ if (G5_IS_MOBILE) {
 	</div>
 </div>
 <footer id="footer">
-<div class = "width-fixed"></div>
-	<div class="gsw_wechat">
-		<img src="<?php echo G5_IMG_URL."/footer_gsw_wechat.png"; ?>" alt="WECHAT GSW 공식계정 QR코드" />	
-	</div>	
-	
-	<!-- <div class="sitemap">
-		<div class="width-fixed">
-			<div class="menu1">
-				<h3><a href="<?php echo G5_URL."/page/company"; ?>">COMPANY</a></h3>
-				<ul>
-					<li><a href="<?php echo G5_URL."/page/company"; ?>">关于公司</a></li>
-					<li><a href="<?php echo G5_URL."/page/company/business.php"; ?>">关于事业</a></li>
-				</ul>
-			</div>
-			<div class="menu2">
-				
-				<h3><a href="<?php echo G5_URL; ?>">ACADEMY</a></h3>
-				<ul>
-					<li><a href="<?php echo G5_URL."/page/academy"; ?>">学院介绍</a></li>
-					<li><a href="<?php echo G5_URL."/page/academy/schedule.php"; ?>">学院日程</a></li>
-					<li><a href="<?php echo G5_URL."/page/academy/application.php"; ?>">接收在线申请</a></li>
-				</ul>
-			</div>
-			<div class="menu3">
-				<h3><a href="<?php echo G5_URL; ?>">MALL</a></h3>
-				<ul>
-					<?php for($i=0;$i<count($cate);$i++){ ?>
-					<li><a href="<?php echo G5_URL."/page/mall/list.php?category=".urlencode($cate[$i]['cate']); ?>"><?php echo $cate[$i]['cate'];?></a></li>
-					<?php } ?>
-				</ul>
-			</div>
-			<div class="menu4">
-				<h3><a href="<?php echo G5_URL; ?>">CONCIERGE</a></h3>
-				<ul>
-					<li><a href="<?php echo G5_URL."/page/concierge"; ?>">关于礼宾医疗</a></li>
-					<li><a href="<?php echo G5_URL."/page/concierge/skin.php"; ?>">皮肤治疗介绍</a></li>
-					<li><a href="<?php echo G5_URL."/page/concierge/plastic.php"; ?>">整容手术介绍</a></li>
-				</ul>
-			</div>
-			<div class="menu5">
-				<h3><a href="<?php echo G5_URL; ?>">ALLIANCE</a></h3>
-				<ul>
-					<li><a href="http://www.youelle.co.kr/" target="_blank">延世YOUELLE皮肤科</a></li>
-					<li><a href="http://www.kaasm.co.kr/" target="_blank">大韩美容学会</a></li>
-					<li><a href="http://www.ctc.ac.kr/" target="_blank">济州观光大学</a></li>
-				</ul>
-			</div>
-			<div class="last menu6">
-				<h3><a href="<?php echo G5_URL; ?>">CONTACT</a></h3>
-				<ul>
-					<li><a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a></li>
-					<li><a href="<?php echo G5_BBS_URL."/board.php?bo_table=qna"; ?>">Q&amp;A</a></li>
-				</ul>
-			</div>
-		</div>
-	</div> -->
-	<div class="guide">
-		<div class="width-fixed">
-			<ul>
-				<li><a href="<?php echo G5_URL."/page/guide/privacy.php"; ?>">隐私政策</a></li>
-				<li><a href="<?php echo G5_URL."/page/guide"; ?>">使用条款</a></li>
-				<li class="last"><a href="<?php echo G5_URL."/page/contact"; ?>">CONTACT</a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="chat">
-		<div class="width-fixed">
-			<ul>
-				<li class="kakao"><i></i><span></span></li>
-				<li class="last wechat"><i></i><span></span></li>
-			</ul>
-		</div>
-	</div>
-	<div class="copyright">
-		<div class="width-fixed">
-			GORLLA SMARTWAY&nbsp;&nbsp;&nbsp;/   CEO : Kim Hyun-jung&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;済州特別自治道 済州市 三徒二洞 365別館 4F<br />
-			TEL : 070-7008-7833 , 010-7277-7833&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;E-mail : info@gsmartway.com
-			<p>COPYRIGHTⓒ 2016 <span>GORLLA SMARTWAY</span>&nbsp;&nbsp;All RIGHTS RESERVED.</p>
-		</div>
-	</div>
+    <div class="footer_contact">
+        <div class = "width-fixed">
+            <img src="<?php echo G5_IMG_URL."/footer_contact.png"; ?>" alt="contact정보" class="footer-contact"/>
+            <div class="footer_menu">
+                <ul>
+                    <li onclick="location.href='#'">법인폰 신청</li>
+                    <li onclick="location.href='#'">SKT SHOP 주문쉽게 따라하기</li>
+                    <li onclick="location.href='#'" class="last"><img src="<?php echo G5_IMG_URL;?>/footer_call_btn.png" alt=""></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="guide">
+        <div class="width-fixed">
+            <ul>
+                <li><a href="<?php echo G5_URL;?>/page/guide/privacy.php" rel="modal:open" >개인정보처리방침</a></li>
+                <li><a href="<?php echo G5_URL;?>/page/guide/index.php" rel="modal:open" >이용약관</a></li>
+                <li><a href="<?php echo G5_URL;?>/page/guide/email.php" rel="modal:open" >이메일정보수집거부</a></li>
+                <li><a href="<?php echo G5_URL;?>/page/guide/userguide.php" rel="modal:open" >이용안내</a></li>
+                <li class="last"><a href="<?php echo G5_URL;?>/page/guide/sitemap.php">사이트맵</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="copyright">
+        <div class="width-fixed">(주)에스케이유&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;통신판매업 신고번호:제2016-복구-481호&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;사업자등록번호:409-86-47924&nbsp;<br>
+            TEL : 1566-3521&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;개인정보 관리 책임자: 황승주
+            <p>COPYRIGHTⓒ 2017 <span>sktshop.kr</span>&nbsp;&nbsp;All RIGHTS RESERVED.</p>
+        </div>
+    </div>
 </footer>
-
+    <script>
+        $(document).ready(function(){
+            $(".community").mouseover(function(){
+                $(".sub_menu_bg").css("display","block");
+            })
+            $(".menu1, .community").mouseout(function(){
+                $(".sub_menu_bg").css("display","none");
+            })
+        })
+    </script>
 <?php
 if ($config['cf_analytics']) {
     echo $config['cf_analytics'];

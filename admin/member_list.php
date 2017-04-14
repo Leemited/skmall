@@ -15,7 +15,7 @@
 	$rows=10;
 	$start=($page-1)*$rows;
 	$total_page=ceil($total/$rows);
-	$sql="select * from `g5_member` where 1 {$where} order by `mb_no` desc limit {$start},{$rows}";
+	$sql="select * from `g5_member` where `mb_id`!='admin' {$where} order by `mb_no` desc limit {$start},{$rows}";
 	$query=sql_query($sql);
 	$j=0;
 	while($data=sql_fetch_array($query)){
@@ -39,18 +39,6 @@
 			<hr />
 		</header>
 		<article>
-			<div class="grid_100 text-right" style="margin-bottom:20px">
-				<select name="code" class="adm-input01" id="code" onchange="javascript:location.href='<?php echo G5_URL."/admin/member_list.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2="; ?>'+this.value;">
-					<option value="">코드선택</option>
-					<?php
-					for($i=0;$i<count($code_array);$i++){
-					?>
-					<option value="<?php echo $code_array[$i]['code']; ?>"<?php echo $code_array[$i]['id']==$mb_2?" selected":""; ?>><?php echo $code_array[$i]['code']; ?></option>
-					<?php
-					}
-					?>
-				</select>
-			</div>
 			<div class="grid_100" style="margin-bottom:30px">
 				<form action="" method="get">
 					<div class="grid_15">
@@ -70,12 +58,7 @@
 						<tr>
 							<th class="md_none">번호</th>
 							<th>아이디</th>
-							<th>이름</th>
-							<th class="md_none">이메일</th>
-							<th>휴대폰번호</th>
-							<th>코드</th>
-							<th class="md_none">가입일</th>
-							<th class="md_none">최종접속일</th>
+                            <th class="md_none">최종접속일</th>
 							<th>관리</th>
 						</tr>
 					</thead>
@@ -86,11 +69,6 @@
 						<tr>
 							<td class="md_none" onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo $list[$i]['num']; ?></td>
 							<td onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo $list[$i]['mb_id']; ?></td>
-							<td onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo $list[$i]['mb_name']; ?></td>
-							<td class="md_none" onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo $list[$i]['mb_email']; ?></td>
-							<td onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';">+<?php echo $list[$i]['mb_1']; ?> <?php echo $list[$i]['mb_hp']; ?></td>
-							<td onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo strtoupper($list[$i]['mb_2']); ?></td>
-							<td class="md_none" onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo date("Y.m.d H:i",strtotime($list[$i]['mb_datetime'])); ?></td>
 							<td class="md_none" onclick="location.href='<?php echo G5_URL."/admin/member_view.php?page=".$page."&sel=".$sel."&search=".$search."&mb_2=".$mb_2."&mb_no=".$list[$i]['mb_no']; ?>';"><?php echo date("Y.m.d H:i",strtotime($list[$i]['mb_today_login'])); ?></td>
 							<td><a href="<?php echo G5_URL."/admin/member_stop.php?mb_no=".$list[$i]['mb_no']; ?>"><?php echo $list[$i]['mb_intercept_date']?"활성":"정지"; ?></a></td>
 						</tr>
@@ -136,6 +114,9 @@
 			<?php
 			}
 			?>
+            <div class="text-right mt20">
+                <a href="<?php echo G5_URL."/admin/member_write.php"; ?>" class="adm-btn01">추가하기</a>
+            </div>
 		</article>
 	</section>
 </div>

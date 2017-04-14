@@ -22,7 +22,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add=""){
 
     $str = '';
     if ($cur_page > 1) {
-        $str .= '<li class="prev"><a href="'.$url.($cur_page-1).$add.'"><span></span></a></li>'.PHP_EOL;
+        $str .= '<li class="prev"><a href="'.$url.($cur_page-1).$add.'"><span>이전</span></a></li>'.PHP_EOL;
     }
 
     $start_page = ( ( (int)( ($cur_page - 1 ) / $write_pages ) ) * $write_pages ) + 1;
@@ -30,7 +30,7 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add=""){
 
     if ($end_page >= $total_page) $end_page = $total_page;
 
-    //if ($start_page > 1) $str .= '<li class="prev"><a href="'.$url.($start_page-1).$add.'"><span></span></a></li>'.PHP_EOL;
+    if ($start_page > 1) $str .= '<li class="prev"><a href="'.$url.($start_page-1).$add.'"><span>처음으로</span></a></li>'.PHP_EOL;
 
     if ($total_page > 1) {
 		$start_page=1;
@@ -55,14 +55,66 @@ function get_paging($write_pages, $cur_page, $total_page, $url, $add=""){
         }
     }
 
-    //if ($total_page > $end_page) $str .= '<a href="'.$url.($end_page+1).$add.'" class="pg_page pg_next">다음</a>'.PHP_EOL;
+    if ($total_page > $end_page) $str .= '<a href="'.$url.($end_page+1).$add.'" class="pg_page pg_next">끝으로</a>'.PHP_EOL;
 
     if ($cur_page < $total_page) {
-        $str .= '<li class="next"><a href="'.$url.($cur_page+1).$add.'"><span></span></a></li>'.PHP_EOL;
+        $str .= '<li class="next"><a href="'.$url.($cur_page+1).$add.'"><span>다음</span></a></li>'.PHP_EOL;
     }
 
     if ($str)
         return "<ul>{$str}</ul>";
+    else
+        return "";
+}
+
+// 한페이지에 보여줄 행, 현재페이지, 총페이지수, URL
+function get_paging2($write_pages, $cur_page, $total_page, $url, $add=""){
+    //$url = preg_replace('#&amp;page=[0-9]*(&amp;page=)$#', '$1', $url);
+    //$url = preg_replace('#&amp;page=[0-9]*#', '', $url) . '&amp;page=';
+
+    $str = '';
+    if ($cur_page > 1) {
+        $str .= '<li class="prev"><a href="javascript:page('.$url.','.($cur_page-1).$add.');"><span>< 처음으로</span></a></li>'.PHP_EOL;
+    }
+
+    $start_page = ( ( (int)( ($cur_page - 1 ) / $write_pages ) ) * $write_pages ) + 1;
+    $end_page = $start_page + $write_pages - 1;
+
+    if ($end_page >= $total_page) $end_page = $total_page;
+
+    //if ($start_page > 1) $str .= '<li class="prev"><a href="'.$url.($start_page-1).$add.'"><span></span></a></li>'.PHP_EOL;
+
+    if ($total_page > 1) {
+        $start_page=1;
+        $end_page=$total_page;
+        if($total_page>5){
+            if($total_page<($cur_page+2)){
+                $start_page=$total_page-4;
+                $end_page=$total_page;
+            }else if($cur_page>3){
+                $start_page=$cur_page-2;
+                $end_page=$cur_page+2;
+            }else{
+                $start_page=1;
+                $end_page=5;
+            }
+        }
+        for ($k=$start_page;$k<=$end_page;$k++) {
+            if ($cur_page != $k)
+                $str .= '<li><a href="javascript:page('.$url.','.$k.$add.');">'.$k.'</a></li>'.PHP_EOL;
+            else
+                $str .= '<li class="active"><a href="javascript:page('.$url.','.$k.$add.');">'.$k.'</a></li>'.PHP_EOL;
+        }
+    }
+
+    //if ($total_page > $end_page) $str .= '<a href="'.$url.($end_page+1).$add.'" class="pg_page pg_next">다음</a>'.PHP_EOL;
+
+    if ($cur_page < $total_page) {
+        $str .= '<li class="next"><a href="javascript:page('.$url.','.($cur_page+1).$add.');"><span>끝으로 ></span></a></li>'.PHP_EOL;
+    }
+
+    if ($str)
+        return "<ul class='page'>{$str}</ul>";
     else
         return "";
 }

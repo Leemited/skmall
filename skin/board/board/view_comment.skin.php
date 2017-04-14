@@ -10,7 +10,6 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
 <!-- 댓글 시작 { -->
 <section id="bo_vc">
-    <h2>댓글목록</h2>
     <?php
     $cmt_amt = count($list);
     for ($i=0; $i<$cmt_amt; $i++) {
@@ -29,18 +28,10 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 
     <article id="c_<?php echo $comment_id ?>" <?php if ($cmt_depth) { ?>style="margin-left:<?php echo $cmt_depth ?>px;border-top-color:#e0e0e0"<?php } ?>>
         <header style="z-index:<?php echo $cmt_sv; ?>">
-            <h1><?php echo get_text($list[$i]['wr_name']); ?>님의 댓글</h1>
             <?php echo $list[$i]['name'] ?>
             <?php if ($cmt_depth) { ?><img src="<?php echo $board_skin_url ?>/img/icon_reply.gif" class="icon_reply" alt="댓글의 댓글"><?php } ?>
-            <?php if ($is_ip_view) { ?>
-            아이피
-            <span class="bo_vc_hdinfo"><?php echo $list[$i]['ip']; ?></span>
-            <?php } ?>
-            작성일
-            <span class="bo_vc_hdinfo"><time datetime="<?php echo date('Y-m-d\TH:i:s+09:00', strtotime($list[$i]['datetime'])) ?>"><?php echo $list[$i]['datetime'] ?></time></span>
-            <?php
-            include(G5_SNS_PATH.'/view_comment_list.sns.skin.php');
-            ?>
+
+            <span class="bo_vc_hdinfo">작성일<time datetime="<?php echo date('Y-m-d\TH:i:s+09:00', strtotime($list[$i]['datetime'])) ?>"><?php echo $list[$i]['datetime'] ?></time></span>
         </header>
 
         <!-- 댓글 출력 -->
@@ -48,7 +39,13 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             <?php if (strstr($list[$i]['wr_option'], "secret")) { ?><img src="<?php echo $board_skin_url; ?>/img/icon_secret.gif" alt="비밀글"><?php } ?>
             <?php echo $comment ?>
         </p>
-
+        <footer>
+            <ul class="bo_vc_act">
+                <?php if ($list[$i]['is_reply']) { ?><li><a href="<?php echo $c_reply_href;  ?>" onclick="comment_box('<?php echo $comment_id ?>', 'c'); return false;">답변</a></li><?php } ?>
+                <?php if ($list[$i]['is_edit']) { ?><li><a href="<?php echo $c_edit_href;  ?>" onclick="comment_box('<?php echo $comment_id ?>', 'cu'); return false;">수정</a></li><?php } ?>
+                <?php if ($list[$i]['is_del'])  { ?><li><a href="<?php echo $list[$i]['del_link'];  ?>" onclick="return comment_delete();">삭제</a></li><?php } ?>
+            </ul>
+        </footer>
         <span id="edit_<?php echo $comment_id ?>"></span><!-- 수정 -->
         <span id="reply_<?php echo $comment_id ?>"></span><!-- 답변 -->
 
@@ -67,17 +64,11 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
             $c_reply_href = './board.php?'.$query_string.'&amp;c_id='.$comment_id.'&amp;w=c#bo_vc_w';
             $c_edit_href = './board.php?'.$query_string.'&amp;c_id='.$comment_id.'&amp;w=cu#bo_vc_w';
          ?>
-        <footer>
-            <ul class="bo_vc_act">
-                <?php if ($list[$i]['is_reply']) { ?><li><a href="<?php echo $c_reply_href;  ?>" onclick="comment_box('<?php echo $comment_id ?>', 'c'); return false;">답변</a></li><?php } ?>
-                <?php if ($list[$i]['is_edit']) { ?><li><a href="<?php echo $c_edit_href;  ?>" onclick="comment_box('<?php echo $comment_id ?>', 'cu'); return false;">수정</a></li><?php } ?>
-                <?php if ($list[$i]['is_del'])  { ?><li><a href="<?php echo $list[$i]['del_link'];  ?>" onclick="return comment_delete();">삭제</a></li><?php } ?>
-            </ul>
-        </footer>
+
         <?php } ?>
     </article>
     <?php } ?>
-    <?php if ($i == 0) { //댓글이 없다면 ?><p id="bo_vc_empty">등록된 댓글이 없습니다.</p><?php } ?>
+    <?php if ($i == 0) { //댓글이 없다면 ?><p id="bo_vc_empty" style="text-align: center;border-bottom: 1px solid #ddd">등록된 댓글이 없습니다.</p><?php } ?>
 
 </section>
 <!-- } 댓글 끝 -->
@@ -88,7 +79,6 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
 ?>
 <!-- 댓글 쓰기 시작 { -->
 <aside id="bo_vc_w">
-    <h2>댓글쓰기</h2>
     <form name="fviewcomment" action="./write_comment_update.php" onsubmit="return fviewcomment_submit(this);" method="post" autocomplete="off">
     <input type="hidden" name="w" value="<?php echo $w ?>" id="w">
     <input type="hidden" name="bo_table" value="<?php echo $bo_table ?>">
@@ -158,7 +148,7 @@ var char_max = parseInt(<?php echo $comment_max ?>); // 최대
     </div>
 
     <div class="btn_confirm">
-        <input type="submit" id="btn_submit" class="btn_submit" value="댓글등록">
+        <input type="submit" id="btn_submit" class="inquiryBtn" value="댓글등록">
     </div>
 
     </form>

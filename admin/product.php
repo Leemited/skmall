@@ -2,12 +2,11 @@
 	include_once("../common.php");
 	include_once(G5_PATH."/admin/head.php");
 	$where="";
-	if($category!=""){
-		$where.=" and `category` like '%{$category}%'";
-	}
+
 	if($search!=""){
 		$where.=" and `title` like '%{$search}%' or `en_title` like '%{$search}%'";
 	}
+
 	$total=sql_fetch("select count(*) as cnt from `gsw_product` where 1 {$where} order by `id` desc");
 	if(!$page)
 		$page=1;
@@ -15,7 +14,7 @@
 	$rows=12;
 	$start=($page-1)*$rows;
 	$total_page=ceil($total/$rows);
-	$sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where 1 {$where} order by `order` asc,`id` desc limit {$start},{$rows}";
+	$sql="select * from `gsw_product` as p where 1 {$where} order by `id` desc limit {$start},{$rows}";
 	$query=sql_query($sql);
 	$j=0;
 	while($data=sql_fetch_array($query)){
@@ -23,11 +22,12 @@
 		$list[$j]['num']=$total-($start)-$j;
 		$j++;
 	}
-	$sql="select * from `gsw_category` order by `od` asc";
+
+	/*$sql="select * from `gsw_category` order by `od` asc";
 	$query=sql_query($sql);
 	while($data=sql_fetch_array($query)){
 		$cate[]=$data;
-	}
+	}*/
 ?>
 <style type="text/css">
 	.list02{display:block;width:100%;}
@@ -74,14 +74,14 @@
 		<article>
 			<form action="" method="get">
 				<div class="grid_100" style="margin-bottom:30px">
-					<div class="grid_20">
+					<!--<div class="grid_20">
 						<select name="category" class="adm-input01 grid_100" id="category">
 							<option value="">카테고리 선택</option>
-							<?php for($i=0;$i<count($cate);$i++){ ?>
-							<option value="<?php echo $cate[$i]['cate']; ?>" <?php echo $cate[$i]['cate']==$category?"selected":""; ?>><?php echo $cate[$i]['cate']; ?></option>
-							<?php } ?>
+							<?php /*for($i=0;$i<count($cate);$i++){ */?>
+							<option value="<?php /*echo $cate[$i]['cate']; */?>" <?php /*echo $cate[$i]['cate']==$category?"selected":""; */?>><?php /*echo $cate[$i]['cate']; */?></option>
+							<?php /*} */?>
 						</select>
-					</div>
+					</div>-->
 					<div class="grid_70"><input type="text" name="search" id="search" value="<?php echo $search; ?>" class="adm-input01 grid_100" placeholder="상품이름" /></div>
 					<div class="grid_10"><input type="submit" class="grid_100 white lh30 btn" style="background:#666;border:none;" value="검색" /></div>
 				</div>
@@ -92,15 +92,15 @@
 					<ul>
 					<?php
 						for($i=0;$i<count($list);$i++){
-					?>
+                            $main_photo = explode(",",$list[$i]['photo']);
+                            ?>
 						<li>
 							<a href="<?php echo G5_URL."/admin/product_view.php?&id=".$list[$i]['id']."page=".$page."&category=".$category; ?>">
-								<?php if($list[$i]['out'] || ($list[$i]['number']-$list[$i]['sell'])<=0){ ?><div class="out"><div><p>품절</p></div></div><?php } ?>
-								<div class="img"><div><div><img src="<?php echo G5_DATA_URL."/product/".$list[$i]['photo']; ?>" alt="<?php echo $list[$i]['title']; ?>" /></div></div></div>
+								<?php if($list[$i]['out']){ ?><div class="out"><div><p>품절</p></div></div><?php } ?>
+								<div class="img"><div><div><img src="<?php echo G5_DATA_URL."/product/".$main_photo[0]; ?>" alt="<?php echo $list[$i]['title']; ?>" /></div></div></div>
 								<div class="txt">
-									<h4><?php echo $list[$i]['title']; ?></h4>
-									<h3><?php echo number_format($list[$i]['price']); ?></h3>
-									<p>남은 수량 - <?php echo number_format($list[$i]['number']-$list[$i]['sell']); ?>개</p>
+									<h2><?php echo $list[$i]['title']; ?></h2>
+									<h2><?php echo $list[$i]['en_title']; ?></h2>
 								</div>
 							</a>
 							<div class="btn_group"><a href="<?php echo G5_URL."/admin/product_write.php?id=".$list[$i]['id']."&page=".$page."&category=".$category; ?>">수정</a> <a href="javascript:del_confirm('<?php echo G5_URL."/admin/product_delete.php?&id=".$list[$i]['id']; ?>');" class="white" style="background:#666;">삭제</a></div>

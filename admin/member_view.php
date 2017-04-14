@@ -8,8 +8,11 @@
 		@alert('회원 번호가 없습니다.');
 	}
 	$mb=sql_fetch("select * from g5_member where mb_no='{$mb_no}';");
+
+	$sql = "SELECT * FROM `gsw_banner` WHERE mb_id = '".$mb['mb_id']."'";
+	$banner = sql_fetch($sql);
 ?>
- <script src="<?php echo G5_JS_URL ?>/jquery.register_form.js"></script>
+<script src="<?php echo G5_JS_URL ?>/jquery.register_form.js"></script>
 <!-- 본문 start -->
 <div id="wrap">
 	<section>
@@ -19,41 +22,48 @@
 		</header>
 		<article>
 			<div class="adm-table02">
-				<form action="<?php echo G5_URL."/admin/member_update.php"; ?>" method="post" id="fregisterform" name="fregisterform" onsubmit="return fregisterform_submit(this);">
+				<form action="<?php echo G5_URL."/admin/member_update.php"; ?>" method="post" id="fregisterform" name="fregisterform" enctype="multipart/form-data" onsubmit="return fregisterform_submit(this);">
 					<input type="hidden" name="mb_no" value="<?php echo $mb_no?>" />
 					<table>
+                        <tr>
+                            <th>메인이미지</th>
+                            <td>
+                                <img src="<?php echo G5_DATA_URL."/banner/".$banner['banner']; ?>" alt="">
+                                <input type="file" name="banner" id="banner" <?php echo $id?"":"required"; ?> class="adm-input01 grid_100" value="" />
+                            </td>
+                        </tr>
 						<tr>
 							<th>아이디</th>
 							<td><input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="reg_mb_id"class="adm-input01 grid_100" minlength="3" readonly maxlength="20" placeholder="아이디를 입력하세요."></td>
 						</tr>
-						<tr>
+						<!--<tr>
 							<th>이름</th>
-							<td><input type="text" name="mb_name" value="<?php echo $mb['mb_name'] ?>" id="mb_name"class="adm-input01 grid_100" minlength="3" maxlength="20" placeholder="아이디를 입력하세요."></td>
-						</tr>
+							<td><input type="text" name="mb_name" value="<?php /*echo $mb['mb_name'] */?>" id="mb_name"class="adm-input01 grid_100" minlength="3" maxlength="20" placeholder="아이디를 입력하세요."></td>
+						</tr>-->
 						<tr>
 							<th>비밀번호</th>
 							<td><input type="password" name="mb_password" id="reg_mb_password" <?php echo $required ?> class="adm-input01 grid_100" minlength="3" maxlength="20" placeholder="비밀번호를 입력하세요. (8~20자)"></td>
 						</tr>
-						<tr>
+						<!--<tr>
 							<th>이메일</th>
-							<td><input type="email" name="mb_email" value="<?php echo $mb['mb_email'] ?>" id="reg_mb_email" <?php echo $required ?> class="adm-input01 grid_100" minlength="3" placeholder="이메일을 입력하세요"></td>
+							<td><input type="email" name="mb_email" value="<?php /*echo $mb['mb_email'] */?>" id="reg_mb_email" <?php /*echo $required */?> class="adm-input01 grid_100" minlength="3" placeholder="이메일을 입력하세요"></td>
 						</tr>
 						<tr>
 							<th>휴대폰 번호</th>
 							<td>
 								<select name="mb_1" id="mb_1" class="adm-input01 grid_20 light_gray" required>
 									<option value="">국가코드</option>
-									<option value="86" data-label="+86" <?php echo $mb['mb_1']=="86"?"selected":""; ?>>+86</option>
-									<option value="852" data-label="+852" <?php echo $mb['mb_1']=="852"?"selected":""; ?>>+852</option>
-									<option value="82" data-label="+82" <?php echo $mb['mb_1']=="82"?"selected":""; ?>>+82</option>
+									<option value="86" data-label="+86" <?php /*echo $mb['mb_1']=="86"?"selected":""; */?>>+86</option>
+									<option value="852" data-label="+852" <?php /*echo $mb['mb_1']=="852"?"selected":""; */?>>+852</option>
+									<option value="82" data-label="+82" <?php /*echo $mb['mb_1']=="82"?"selected":""; */?>>+82</option>
 								</select>
-								<input type="text" name="mb_hp" id="reg_mb_hp" value="<?php echo $mb['mb_hp']; ?>" class="adm-input01 grid_80" onkeyup="return number_only(this);" placeholder="휴대폰 번호는 '-'를 생략하고 작성해주세요" />
+								<input type="text" name="mb_hp" id="reg_mb_hp" value="<?php /*echo $mb['mb_hp']; */?>" class="adm-input01 grid_80" onkeyup="return number_only(this);" placeholder="휴대폰 번호는 '-'를 생략하고 작성해주세요" />
 							</td>
 						</tr>
 						<tr>
 							<th>코드</th>
-							<td><input type="text" name="mb_2" id="mb_2" value="<?php echo strtoupper($mb['mb_2']); ?>" class="adm-input01 grid_100"  /></td>
-						</tr>
+							<td><input type="text" name="mb_2" id="mb_2" value="<?php /*echo strtoupper($mb['mb_2']); */?>" class="adm-input01 grid_100"  /></td>
+						</tr>-->
 						<tr>
 							<th>상태</th>
 							<td>
@@ -65,12 +75,12 @@
 								<a href="<?php echo G5_URL."/admin/member_stop.php?mb_no=".$mb_no; ?>" class="btn white bg_gray color_white font_size_12" style="padding:3px 7px;float:right">변경</a>
 							</td>
 						</tr>
-						<tr>
+						<!--<tr>
 							<th>가입일</th>
 							<td>
-							<?php echo date("Y.m.d H:i",strtotime($mb['mb_datetime'])); ?>
+							<?php /*echo date("Y.m.d H:i",strtotime($mb['mb_datetime'])); */?>
 							</td>
-						</tr>
+						</tr>-->
 						<tr>
 							<th>최종접속일</th>
 							<td>

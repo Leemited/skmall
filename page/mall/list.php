@@ -4,29 +4,30 @@ include_once(G5_PATH.'/head.php');
 /*if(!$category){
 	$category=$cate[0]['cate'];
 }*/
+$ordertype = $_REQUEST["orderType"];
 $where="";
 $where2="";
-if($category!=""){
-	$where.="and `category` like '%{$category}%'";
-	$where2.="and cate='{$category}'";
-}
+$order ="order by  `order` asc, `id` desc";
 if($searchtext = $_REQUEST["sch_text"]){
 	$where.=" and (`title` like '%${searchtext}%' or `en_title` like '%${searchtext}%')";
 }
-$sql="select * from `gsw_category_banner` where 1 and cate='{$category}' order by `od` asc";
+
+if($ordertype)
+    $order = "order by `".$ordertype."` asc";
+
+$sql="select * from `gsw_category_banner` where 1 and cate='{$category}' {$order}";
 $query=sql_query($sql);
 while($data=sql_fetch_array($query)){
 	$banner[]=$data;
 }
-$code=sql_fetch("SELECT * FROM  `gsw_code` where `code`='{$member['mb_2']}'");
-$total=sql_fetch("select count(*) as cnt from `gsw_product` where `show`<>'0' {$where} order by `id` desc");
+$total=sql_fetch("select count(*) as cnt from `gsw_product` where `show`<>'0' {$where} {$order}");
 if(!$page)
 	$page=1;
 $total=$total['cnt'];
 $rows=12;
 $start=($page-1)*$rows;
 $total_page=ceil($total/$rows);
-$sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' {$where} order by `order` asc, `id` desc limit {$start},{$rows}";
+$sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' {$where} {$order} limit {$start},{$rows}";
 $query=sql_query($sql);
 $j=0;
 while($data=sql_fetch_array($query)){
@@ -36,30 +37,40 @@ while($data=sql_fetch_array($query)){
 $gsw_config=sql_fetch("select * from `gsw_config`");
 ?>
 <section class="section01">
-	<?php if(count($banner)>0){ ?>
-	<div class="mall_slide owl-carousel lg_hidden">
-		<?php for($i=0;$i<count($banner);$i++){ ?>
-		<div class="item" style="background-image:url('<?php echo G5_DATA_URL."/cate_banner/".$banner[$i]['banner']; ?>');"></div>
-		<?php } ?>
-	</div>
-	<?php } ?>
-	<div class="width-fixed">
+    <div class="width-fixed">
+        <div class="listView" >
+            <div class="total"><h3>총 <span class="bold"><?=$total?></span>개의 상품이 있습니다.</h3></div>
+            <div class="align">
+                <ul>
+                    <li onclick="location.href='<?php echo G5_URL?>/page/mall/list.php?orderType=hit'">인기상품순</li>
+                    <li onclick="location.href='<?php echo G5_URL?>/page/mall/list.php?orderType=datetime'">최근등록순</li>
+                </ul>
+                <div>
+                    <div class="grid"></div>
+                    <div class="list"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="clear"></div>
+	<!--<div class="width-fixed">
 		<nav class="section01_nav">
-			<ul class="<?php echo count($cate)==1?" list1":""; echo count($cate)>=3?" list3":""; ?>" style="width:100%;">
-				<li<?php echo $category==""?" class='active'":"" ?><?php echo (count($cate)+1)>5?" style='width:".(100/(count($cate)+1))."%;'":"";?>><a href="<?php echo G5_URL."/page/mall/list.php"; ?>">全部商品</a></li>
-				<?php for($i=0;$i<count($cate);$i++){ ?>
-				<li<?php echo $cate[$i]['cate']==$category?" class='active'":"" ?><?php echo (count($cate)+1)>5?" style='width:".(100/(count($cate)+1))."%;'":"";?>><a href="<?php echo G5_URL."/page/mall/list.php?category=".urlencode($cate[$i]['cate']); ?>"><?php echo $cate[$i]['cate'];?></a></li>
-				<?php } ?>
+			<ul class="<?php /*echo count($cate)==1?" list1":""; echo count($cate)>=3?" list3":""; */?>" style="width:100%;">
+				<li<?php /*echo $category==""?" class='active'":"" */?><?php /*echo (count($cate)+1)>5?" style='width:".(100/(count($cate)+1))."%;'":"";*/?>><a href="<?php /*echo G5_URL."/page/mall/list.php"; */?>">全部商品</a></li>
+				<?php /*for($i=0;$i<count($cate);$i++){ */?>
+				<li<?php /*echo $cate[$i]['cate']==$category?" class='active'":"" */?><?php /*echo (count($cate)+1)>5?" style='width:".(100/(count($cate)+1))."%;'":"";*/?>><a href="<?php /*echo G5_URL."/page/mall/list.php?category=".urlencode($cate[$i]['cate']); */?>"><?php /*echo $cate[$i]['cate'];*/?></a></li>
+				<?php /*} */?>
 			</ul>
-			<!-- <?php if(count($cate)>3){?>
+			<?php /*if(count($cate)>3){*/?>
 				<div class="slide hidden lg_show owl-carousel">
-				<?php for($i=0;$i<count($cate);$i++){ ?>
-					<div class="item <?php echo $cate[$i]['cate']==$category?" act":""; ?>"><a href="<?php echo G5_URL."/page/mall/list.php?category=".urlencode($cate[$i]['cate']); ?>"><?php echo $cate[$i]['cate'];?></a></div>
-				<?php } ?>
+				<?php /*for($i=0;$i<count($cate);$i++){ */?>
+					<div class="item <?php /*echo $cate[$i]['cate']==$category?" act":""; */?>"><a href="<?php /*echo G5_URL."/page/mall/list.php?category=".urlencode($cate[$i]['cate']); */?>"><?php /*echo $cate[$i]['cate'];*/?></a></div>
+				<?php /*} */?>
 				</div>
-			<?php } ?> -->
+			<?php /*} */?>
 		</nav>
-	</div>
+	</div>-->
 	<?php if(count($banner)>0){ ?>
 	<div class="mall_slide owl-carousel lg_show hidden">
 		<?php for($i=0;$i<count($banner);$i++){ ?>
@@ -69,59 +80,34 @@ $gsw_config=sql_fetch("select * from `gsw_config`");
 	<?php } ?>
 	<article class="section01_con wrap" id="mall_list">
 		<div class="width-fixed">
-			<?php 
-				if(!$is_member){ ?>
-			<div class="join_box">
-				<p><i></i>注册会员后登录，可以以会员价格进行购买。</p><a href="<?php echo G5_BBS_URL."/register_form.php"; ?>" class="btn01">注册会员<span class="lg_hidden"> </span></a>
-			</div>
-			<?php } ?>
-			<div class="search_box">
-				<div class="search_area">
-				<form action="<?php echo G5_URL."/page/mall/list.php";?>" method="post" name="searchForm">
-					<input type="hidden" name="category" value="<?=$category?>" />
-					<input type="text" name="sch_text" id="sch_text" class="input_search" value="<?=$searchtext?>" placeholder="Search..."/>
-					<input type="submit" class="searchBtn" value=""/>
-				</form>
-				</div>
-			</div>
 			<div class="list01">
 				<?php
 				for($i=0;$i<count($list);$i++){
-					$price=$list[$i]['price'];
-					if($code['sale'])
-						$price=$list[$i]['price']-(($list[$i]['price']/100)*$code['sale']);
-					$list[$i]['code_sale_arr']=explode("||",$list[$i]['code_sale']);
-					for($j=0;$j<count($list[$i]['code_sale_arr']);$j++){
-						$list[$i]['code_sale_arr'][$j]=explode("|",$list[$i]['code_sale_arr'][$j]);
-						if($list[$i]['code_sale_arr'][$j][0]==$code['id'])
-							$price=$list[$i]['price']-(($list[$i]['price']/100)*$list[$i]['code_sale_arr'][$j][1]);
-					}
-				?>
+
+					$main_img = explode(",",$list[$i]["photo"]);
+                    $sql="select COUNT(*) as cnt from `g5_write_review` where wr_1= ".$list[$i]["id"];
+                    $review = sql_fetch($sql);
+                    $reviewCnt = $review['cnt'];
+                ?>
 				<div class="item">
 					<a href="<?php echo G5_URL."/page/mall/view.php?&id=".$list[$i]['id']."&category=".urlencode($list[$i]['category']); ?>">
-						<?php if($list[$i]['out'] || ($list[$i]['number']-$list[$i]['sell'])<=0){ ?><div class="out"><i></i></div><?php } ?>
-						<div class="img"><div><div><img src="<?php echo G5_DATA_URL."/product/".$list[$i]['photo']; ?>" alt="<?php echo $list[$i]['title']; ?>" /></div></div></div>
+						<?php if($list[$i]['out']){ ?><div class="out"><i></i></div><?php } ?>
+						<div class="img"><div><div><img src="<?php echo G5_DATA_URL."/product/".$main_img[0]; ?>" alt="<?php echo $list[$i]['title']; ?>" /></div></div></div>
 						<div class="txt">
-							<h4><?php echo $list[$i]['title']; ?></h4>
-							<?php if($price<$list[$i]['price']){ ?><h5>¥ <?php echo number_format(round($list[$i]['price']/$gsw_config['exchange']),0); ?></h5><?php } ?>							
-                           
-                            <?php if($list[$i]['hospital'] == '2'){                                                       
-                             if($is_member){?>
-				            <h3>¥ <?php echo number_format(round($price/$gsw_config['exchange']),0); ?></h3>
-							<?php }elseif($is_guest){?>
-                                 <h3 class="infotxt" style="font-size:12px;">本产品只提供给有合法叛卖医疗机器许可证的人<br>或者可以登入合法叛卖资格之后进行购买</h3>
-                            <?php }
-                            }elseif($list[$i]['hospital'] != '2'){?>                             
-                                    <h3>¥<?php echo number_format(round($price/$gsw_config['exchange']),0); ?></h3>
-                            <?php }?>
-                        
-                            </div>
+                            <h3><?php echo $list[$i]['title']; ?></h3>
+                            <h4><?php echo $list[$i]['en_title']; ?></h4>
+                            <h5><?php if($list[$i]["preorder"]==1){echo "예약만 진행, 입고시순차진행"; }?></h5>
+                            <p>리뷰(<?=$reviewCnt?>)</p>
+                        </div>
+                        <div class="listBtn">
+                            <input type="button" class="listViewBtn" value="자세히보기">
+                        </div>
 					</a>
 				</div>
 				<?php
 				}
 				if(count($list)==0){
-					echo "<div class='text-center grid_100 item' style='padding:150px 0;'>没有列表。</div>";
+					echo "<div class='text-center grid_100 item' style='padding:150px 0;'>등록제품이 없습니다.</div>";
 				}
 				?>
 			</div>

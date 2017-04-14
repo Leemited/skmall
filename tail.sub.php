@@ -25,37 +25,6 @@ $(function() {
 });
 </script>
 <![endif]-->
-<?php
-$browser = $_SERVER['HTTP_USER_AGENT'];
-$chk = preg_match('/GSW/i',$browser);
-if($member["mb_id"] && $chk==1){?> 
-<script type="text/javascript">
-	$(function(){
-		//getRegID
-		try{
-			var regId = window.android.getRegid();
-			if(regId){
-				var insert_Path = '<?=G5_URL?>/insert_regid.php?regID=' + regId;
-				$.get( insert_Path, function() {
-					console.log( insert_Path );
-					console.log( "regID success" );
-				}).done(function() {
-					console.log( "regID second success" );
-				}).fail(function() {
-					console.log( insert_Path );
-					console.log( "regID error" );
-				}).always(function() {
-					console.log( "regID finished" );
-				});
-			}
-		}catch(err){
-			var regId = undefined;
-			console.log(err);
-		}
-	});
-
-</script>
-<?php } ?>
 <script type="text/javascript" src="<?php echo G5_JS_URL."/owl.carousel.js"; ?>"></script>
 </body>
 </html>
