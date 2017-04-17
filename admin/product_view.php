@@ -150,7 +150,9 @@ $image4 = explode(",",$view["photo4"]);
 					<tr>
                         <th>신청링크</th>
                         <td>
-                            <?php echo $view["orderlink"];?>
+                            신규가입 : <?php echo $view["orderlink"];?><br>
+							번호이동 : <?php echo $view["orderlink2"];?><br>
+							기기변경 : <?php echo $view["orderlink3"];?>
                         </td>
                     </tr>
 					<tr>

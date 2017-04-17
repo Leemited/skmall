@@ -10,7 +10,7 @@
 
 /* reset */ 
 html,body{padding:0;margin:0;height:100%;width:100%;border:0;}
-html{overflow-y:auto;overflow-x:auto;min-width:1300px;}
+html{overflow-y:auto;overflow-x:auto;}
 body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0;} 
 body,input,textarea,select,button,table{font-family:'Nanum Gothic','NanumGothic',"맑은고딕",dotum,AppleGothic,sans-serif;font-size:12px;}
 img,fieldset{border:0}
@@ -826,7 +826,9 @@ input[type="checkbox"]{vertical-align:middle;}
 #mall_view .top .choiceColor h3{font-size: 20px;font-family: "NanumGothic";font-weight: bold}
 #mall_view .top .choiceColor ul{position: absolute;bottom:5px;right:10px;}
 #mall_view .top .choiceColor ul li{float:left;padding:10px 5px; font-family: "NanumGothic"; font-size: 14px; cursor: pointer}
-#mall_view .top .choiceColor ul li:hover > input{background-color: #e51d39;}
+#mall_view .top .choiceColor ul li input[type='button']:hover{background-color: #e51d39 !important;color:#fff !important;font-weight:bold !important}
+#mall_view .top .choiceColor ul.regitype li{float:left;padding:10px 5px; font-family: "NanumGothic"; font-size: 14px; cursor: pointer}
+#mall_view .top .choiceColor ul.regitype li input{vertical-align:middle;display:inline-block;}
 
 #mall_view .detailView table{border-top: 3px solid #e51d39;width:100%;}
 #mall_view .detailView table th{background-color:#f2f2f2;border-bottom: 1px solid #ddd;width:30%;padding:15px 10px;font-weight: bold;font-size: 16px; font-family: "NanumGothic"}

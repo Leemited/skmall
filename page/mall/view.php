@@ -55,6 +55,15 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                         </div>
                     </div>
                 </div>
+				<div class="clear"></div>
+				<div class="choiceColor" >
+					<h3>가입유형</h3>
+					<ul class="regitype">
+						<li><label><input type="radio" name="regitype" id="regitype" value="1" /> 신규가입</label></li>
+						<li><label><input type="radio" name="regitype" id="regitype" value="2" /> 번호이동</label></li>
+						<li><label><input type="radio" name="regitype" id="regitype" value="3" /> 기기변경</label></li>
+					</ul>
+				</div>
 				<div class="img datainput">
 
 				</div>
@@ -207,7 +216,22 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
             });
         });
 
-
+		 $("input[id^=regitype]").each(function () {
+            $(this).click(function () {
+				$.ajax({
+                    url:"./ajax.regitype.php",
+                    method:"POST",
+                    data:{id:"<?=$id?>",type:$(this).val()},
+                    dataType:"html"
+                }).done(function(html) {
+					if(html=="1"){
+						alert("값이 잘못 되었습니다.");
+					}else{
+						$(".btn_group").html(html);
+					}
+                })
+			})
+		 })
 
         $("input[class^=color]").each(function () {
             $(this).click(function () {
@@ -218,7 +242,11 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                     data:{id:"<?=$id?>",color:num},
                     dataType:"html"
                 }).done(function(html) {
-                    $(".datainput").html(html);
+					if(html=="1"){
+						alert("값이 잘못 되었습니다.");
+					}else{
+						$(".datainput").html(html);
+					}
                 })
             })
         })

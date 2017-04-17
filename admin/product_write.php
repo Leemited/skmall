@@ -254,9 +254,12 @@
 						<tr>
 							<th>신청링크 *</th>
 							<td>
-								<input type="text" name="orderlink" required id="orderlink" class="adm-input01 grid_100" value="<?php echo $write['orderlink']; ?>" />
+								신규가입 : <input type="text" name="orderlink" required id="orderlink" class="adm-input01 grid_100" value="<?php echo $write['orderlink']; ?>" />
+								번호이동 : <input type="text" name="orderlink2" required id="orderlink2" class="adm-input01 grid_100" value="<?php echo $write['orderlink2']; ?>" />
+								기기변경 : <input type="text" name="orderlink3" required id="orderlink3" class="adm-input01 grid_100" value="<?php echo $write['orderlink3']; ?>" />
 							</td>
 						</tr>
+
 						<!--<tr>
 							<th>관련상품</th>
 							<td>

@@ -13,6 +13,8 @@
 	$related=$_POST['related'];
 	$color = $_POST["color"];
 	$orderlink=$_POST['orderlink'];
+	$orderlink2=$_POST['orderlink2'];
+	$orderlink3=$_POST['orderlink3'];
 	$callplan = $_POST["callplan"];
 	$callprice = $_POST["price"];
 	$callvoice = $_POST["voice"];
@@ -33,64 +35,109 @@
     @chmod($dir, G5_DIR_PERMISSION);
     $filename1=time();
 
+	if($id){
+		$sql = "SELECT * FROM `gsw_product` where `id` = {$id}";
+		$data = sql_fetch($sql);
+		if($data["photo"]){
+			$image = explode(",",$data["photo"]);
+			$image1 = explode(",",$data["photo1"]);
+			$image2 = explode(",",$data["photo2"]);
+			$image3 = explode(",",$data["photo3"]);
+			$image4 = explode(",",$data["photo4"]);
+
+			for($i=0;$i<count($image);$i++){
+				$img[$i][0]=$image1[$i];
+				$img[$i][1]=$image2[$i];
+				$img[$i][2]=$image3[$i];
+				$img[$i][3]=$image4[$i];
+			}
+		}
+	}
+
     for($i=0;$i<count($photo["tmp_name"]);$i++) {
-        if ($photo['tmp_name']) {
-            if (count($photo["tmp_name"]) == ($i + 1)) {
+		if ($_FILES["photo"]['tmp_name'][$i]) {
+			if (count($photo["tmp_name"]) == ($i + 1)) {
                 $photos .= $filename1 . "_product_" . $i . ".jpg";
-                $photos1 .= $filename1 . "_product1_" . $i . ".jpg";
-                $photos2 .= $filename1 . "_product2_" . $i . ".jpg";
-                $photos3 .= $filename1 . "_product3_" . $i . ".jpg";
-                $photos4 .= $filename1 . "_product4_" . $i . ".jpg";
                 $path1=$dir."/".$filename1 . "_product_" . $i . ".jpg";
-                $path2=$dir."/".$filename1 . "_product1_" . $i . ".jpg";
-                $path3=$dir."/".$filename1 . "_product2_" . $i . ".jpg";
-                $path4=$dir."/".$filename1 . "_product3_" . $i . ".jpg";
-                $path5=$dir."/".$filename1 . "_product4_" . $i . ".jpg";
             } else {
                 $photos .= $filename1 . "_product_" . $i . ".jpg, ";
-                $photos1 .= $filename1 . "_product1_" . $i . ".jpg, ";
-                $photos2 .= $filename1 . "_product2_" . $i . ".jpg, ";
-                $photos3 .= $filename1 . "_product3_" . $i . ".jpg, ";
-                $photos4 .= $filename1 . "_product4_" . $i . ".jpg, ";
                 $path1=$dir."/".$filename1 . "_product_" . $i . ".jpg";
+            }
+			image_resize_update($_FILES["photo"]['tmp_name'][$i],$_FILES["photo"]['name'][$i], $path1, 850);
+			if($id){
+				sql_query("update `gsw_product` set `photo`='{$photos}' where `id`='{$id}';");
+			}
+			if($img[$i][0]){
+				@unlink($dir."/".$img[$i][0]);
+			}
+		}
+		if ($_FILES["photo1"]['tmp_name'][$i]) {
+			if (count($photo1["tmp_name"]) == ($i + 1)) {
+                $photos1 .= $filename1 . "_product1_" . $i . ".jpg";
                 $path2=$dir."/".$filename1 . "_product1_" . $i . ".jpg";
+            } else {
+                $photos1 .= $filename1 . "_product1_" . $i . ".jpg, ";
+                $path2=$dir."/".$filename1 . "_product1_" . $i . ".jpg";
+            }
+			image_resize_update($_FILES["photo1"]['tmp_name'][$i],$_FILES["photo1"]['name'][$i], $path2, 850);
+			if($id){
+				sql_query("update `gsw_product` set `photo1`='{$photos1}' where `id`='{$id}';");
+			}
+			if($img[$i][1]){
+				@unlink($dir."/".$img[$i][0]);
+			}
+		}
+		if ($_FILES["photo2"]['tmp_name'][$i]) {
+			if (count($photo2["tmp_name"]) == ($i + 1)) {
+                $photos2 .= $filename1 . "_product2_" . $i . ".jpg";
                 $path3=$dir."/".$filename1 . "_product2_" . $i . ".jpg";
+            } else {
+                $photos2 .= $filename1 . "_product2_" . $i . ".jpg, ";
+                $path3=$dir."/".$filename1 . "_product2_" . $i . ".jpg";
+            }
+            image_resize_update($_FILES["photo2"]['tmp_name'][$i],$_FILES["photo2"]['name'][$i], $path3, 850);
+			if($id){
+				sql_query("update `gsw_product` set `photo2`='{$photos2}' where `id`='{$id}';");
+			}
+			if($img[$i][2]){
+				@unlink($dir."/".$img[$i][0]);
+			}
+		}
+		if ($_FILES["photo3"]['tmp_name'][$i]) {
+			if (count($photo3["tmp_name"]) == ($i + 1)) {
+                $photos3 .= $filename1 . "_product3_" . $i . ".jpg";
                 $path4=$dir."/".$filename1 . "_product3_" . $i . ".jpg";
+            } else {
+                $photos3 .= $filename1 . "_product3_" . $i . ".jpg, ";
+                $path4=$dir."/".$filename1 . "_product3_" . $i . ".jpg";
+            }
+            image_resize_update($_FILES["photo3"]['tmp_name'][$i],$_FILES["photo3"]['name'][$i], $path4, 850);
+			if($id){
+				sql_query("update `gsw_product` set `photo3`='{$photos3}' where `id`='{$id}';");
+			}
+			if($img[$i][3]){
+				@unlink($dir."/".$img[$i][0]);
+			}
+		}
+		if ($_FILES["photo4"]['tmp_name'][$i]) {
+			if (count($photo4["tmp_name"]) == ($i + 1)) {
+                $photos4 .= $filename1 . "_product4_" . $i . ".jpg";
+                $path5=$dir."/".$filename1 . "_product4_" . $i . ".jpg";
+            } else {
+                $photos4 .= $filename1 . "_product4_" . $i . ".jpg, ";
                 $path5=$dir."/".$filename1 . "_product4_" . $i . ".jpg";
             }
-
-            image_resize_update($_FILES["photo"]['tmp_name'][$i],$_FILES["photo"]['name'][$i], $path1, 850);
-            image_resize_update($_FILES["photo1"]['tmp_name'][$i],$_FILES["photo1"]['name'][$i], $path2, 850);
-            image_resize_update($_FILES["photo2"]['tmp_name'][$i],$_FILES["photo2"]['name'][$i], $path3, 850);
-            image_resize_update($_FILES["photo3"]['tmp_name'][$i],$_FILES["photo3"]['name'][$i], $path4, 850);
             image_resize_update($_FILES["photo4"]['tmp_name'][$i],$_FILES["photo4"]['name'][$i], $path5, 850);
-        }
+			if($id){
+				sql_query("update `gsw_product` set `photo4`='{$photos4}' where `id`='{$id}';");
+			}
+			if($img[$i][4]){
+				@unlink($dir."/".$img[$i][0]);
+			}
+		}
     }
 
-    if($id){
-        $photo_Sql = ", `photo` = '".$photos."'";
-        $photo_Sql1 = ", `photo1` = '".$photos1."'";
-        $photo_Sql2 = ", `photo2` = '".$photos2."'";
-        $photo_Sql3 = ", `photo3` = '".$photos3."'";
-        $photo_Sql4 = ", `photo4` = '".$photos4."'";
-    }
-
-    $sql = "SELECT * FROM `gsw_product` where `id` = {$id}";
-    $data = sql_fetch($sql);
-    if($data["photo"]){
-        $image = explode(",",$data["photo"]);
-        $image1 = explode(",",$data["photo1"]);
-        $image2 = explode(",",$data["photo2"]);
-        $image3 = explode(",",$data["photo3"]);
-        $image4 = explode(",",$data["photo4"]);
-
-        for($i=0;$i<count($image);$i++){
-            $img[$i][0]=$image1[$i];
-            $img[$i][1]=$image2[$i];
-            $img[$i][2]=$image3[$i];
-            $img[$i][3]=$image4[$i];
-        }
-    }
+    
 
 
     if(count($spec)>1){
@@ -120,23 +167,10 @@
         }
     }
 
-	/*if($id)
-		$data=sql_fetch("select * from `gsw_product` where id='".$id."'");
-	$dir=G5_DATA_PATH."/product";
-	@mkdir($dir, G5_DIR_PERMISSION);
-	@chmod($dir, G5_DIR_PERMISSION);
-	$filename1=time()."_product.jpg";
-	$path1=$dir."/".$filename1;
-	if($_FILES['photo']['tmp_name']){
-		image_resize_update($_FILES['photo']['tmp_name'],$_FILES['photo']['name'], $path1, 2000);
-		$photo=$filename1;
-		$photo_sql=",`photo`='".$filename1."'";
-		@unlink($dir."/".$data['photo']);
-	}*/
 	if($id){
-		$sql="update `gsw_product` set `category`='{$catego}',`title`='{$title}',`en_title`='{$en_title}',`preorder`= '{$preorder}',`color_title`= '{$color_title}',`specinfo`= '{$specInfo}',`orderlink`='{$orderlink}',`out`='{$out}',`show`='{$show}',`calling_plan`='{$call_plan}',`content`='{$content}' {$photo_Sql} {$photo_Sql1} {$photo_Sql2} {$photo_Sql3} {$photo_Sql4} where `id`='{$id}';";
+		$sql="update `gsw_product` set `category`='{$catego}',`title`='{$title}',`en_title`='{$en_title}',`preorder`= '{$preorder}',`color_title`= '{$color_title}',`specinfo`= '{$specInfo}',`orderlink`='{$orderlink}',`orderlink2`='{$orderlink2}',`orderlink3`='{$orderlink3}',`out`='{$out}',`show`='{$show}',`calling_plan`='{$call_plan}',`content`='{$content}'  where `id`='{$id}';";
 	}else{
-		$sql="insert into `gsw_product` (`category`,`title`,`en_title`,`info`,`number`,`out`,`show`,`hospital`,`persnal`,`price`,`weight`,`code_sale`,`related_product`,`photo`,`content`,`datetime`,`order`) VALUES ('{$catego}','{$title}','{$en_title}','{$info}','{$number}','{$out}','{$show}','{$hospital}','{$persnal}','{$price}','{$weight}','{$code_sale}','{$related_product}','{$photo}','{$content}',NOW(),'$order');";
+		$sql="insert into `gsw_product` (`category`,`title`,`en_title`,`info`,`number`,`out`,`show`,`hospital`,`persnal`,`price`,`weight`,`code_sale`,`related_product`,`photo`,`photo1`,`photo2`,`photo3`,`photo4`,`content`,`datetime`,`order`,`orderlink`,`orderlink2`,`orderlink2`) VALUES ('{$catego}','{$title}','{$en_title}','{$info}','{$number}','{$out}','{$show}','{$hospital}','{$persnal}','{$price}','{$weight}','{$code_sale}','{$related_product}','{$photos}','{$photos1}','{$photo2}','{$photos3}','{$photos4}','{$content}',NOW(),'$order','{$orderlink}','{$orderlink2}','{$orderlink3}');";
 	}
 
 	sql_query($sql);
