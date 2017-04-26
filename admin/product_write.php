@@ -52,6 +52,12 @@
 				<input type="hidden" name="page" value="<?php echo $page; ?>" />
 				<input type="hidden" name="category" value="<?php echo $category; ?>" />
 				<input type="hidden" name="sub_category" value="<?php echo $sub_category; ?>" />
+                <input type="hidden" name="ori_photo" value="<?php echo $write["photo"]; ?>">
+                <input type="hidden" name="ori_photo1" value="<?php echo $write["photo1"]; ?>">
+                <input type="hidden" name="ori_photo2" value="<?php echo $write["photo2"]; ?>">
+                <input type="hidden" name="ori_photo3" value="<?php echo $write["photo3"]; ?>">
+                <input type="hidden" name="ori_photo4" value="<?php echo $write["photo4"]; ?>">
+                <input type="hidden" name="delRow" id="delRow" value="" >
 				<div class="adm-table02">
 					<table>
                         <tr>
@@ -127,9 +133,7 @@
                                         <tr>
                                             <th>색상</th>
                                             <td><input type="text" name="color[]" class="adm-input01 grid_100" value="<?php echo $color[$i];?>"></td>
-                                            <td rowspan="3" style="text-align: center"><a
-                                                        style="width:50px;cursor: pointer"
-                                                        class="delColor bg_gray white btn lh30">삭제</a></td>
+                                            <td rowspan="3" style="text-align: center"><a style="width:50px;cursor: pointer" class="delColor bg_gray white btn lh30" id="delc<?=$i?>">삭제</a></td>
                                         </tr>
                                         <tr>
                                             <th>제품 메인 사진 *</th>
@@ -388,7 +392,12 @@
     })
     $(document).on("click",".delColor",function () {
         var lastItemNo = $(".color table").length;
-        alert(lastItemNo);
+        var row = $(this).attr("id").replace("delc","");
+        var delRow = $("#delRow").val();
+        if(delRow)
+            $("#delRow").val(delRow+","+row);
+        else
+            $("#delRow").val(row);
         if(lastItemNo<=1){
             alert("최소 1개 정보는 입력하셔야 합니다.");
         }else {
@@ -461,7 +470,6 @@
                     clickedRow.next().prepend(clickedRow.find("td:eq(0)"));
                 }
             }
-
             clickedRow.remove();
         }
     })

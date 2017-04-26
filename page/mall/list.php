@@ -12,8 +12,17 @@ if($searchtext = $_REQUEST["sch_text"]){
 	$where.=" and (`title` like '%${searchtext}%' or `en_title` like '%${searchtext}%')";
 }
 
-if($ordertype)
-    $order = "order by `".$ordertype."` asc";
+if($ordertype) {
+    if($ordertype=="sam"){
+       $where .= " and `en_title` like '%SM%' ";
+    }else if($ordertype=="lg"){
+        $where .= " and `en_title` like '%LG%' ";
+    }else if($ordertype=="apple"){
+        $where .= " and `en_title` like '%IPHONE%' ";
+    }else {
+        $order = "order by `" . $ordertype . "` desc";
+    }
+}
 
 $sql="select * from `gsw_category_banner` where 1 and cate='{$category}' {$order}";
 $query=sql_query($sql);
@@ -36,6 +45,9 @@ while($data=sql_fetch_array($query)){
 }
 $gsw_config=sql_fetch("select * from `gsw_config`");
 ?>
+<style>
+
+</style>
 <section class="section01">
     <div class="width-fixed">
         <div class="listView" >
@@ -51,6 +63,18 @@ $gsw_config=sql_fetch("select * from `gsw_config`");
                 </div>
             </div>
 
+        </div>
+        <div class="clear"></div>
+        <div class="product_cate">
+            <div>
+
+                <ul >
+                    <li class="first">기종별</li>
+                    <li onclick="location.href='<?php echo G5_URL?>/page/mall/list.php?orderType=sam'" <?php if($ordertype=="sam"){echo "class='active'";}?>>SAMSUNG</li>
+                    <li onclick="location.href='<?php echo G5_URL?>/page/mall/list.php?orderType=lg'" <?php if($ordertype=="lg"){echo "class='active'";}?>>LG</li>
+                    <li onclick="location.href='<?php echo G5_URL?>/page/mall/list.php?orderType=apple'" <?php if($ordertype=="apple"){echo "class='active'";}?>>APPLE</li>
+                </ul>
+            </div>
         </div>
     </div>
     <div class="clear"></div>
@@ -113,7 +137,7 @@ $gsw_config=sql_fetch("select * from `gsw_config`");
 			</div>
 		</div>
 		<nav class="next-list">
-			<a href="<?php echo G5_URL."/page/mall/ajax.list.php?category=".urlencode($category)."&page=2"; ?>"></a>
+			<a href="<?php echo G5_URL."/page/mall/ajax.list.php?category=".urlencode($category)."&page=2&orderType=".urlencode($ordertype); ?>"></a>
 		</nav>
 	</article>
 </section>

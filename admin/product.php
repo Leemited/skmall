@@ -95,7 +95,7 @@
                             $main_photo = explode(",",$list[$i]['photo']);
                             ?>
 						<li>
-							<a href="<?php echo G5_URL."/admin/product_view.php?&id=".$list[$i]['id']."page=".$page."&category=".$category; ?>">
+							<a href="<?php echo G5_URL."/admin/product_view.php?&id=".$list[$i]['id']."&page=".$page."&category=".$category; ?>">
 								<?php if($list[$i]['out']){ ?><div class="out"><div><p>품절</p></div></div><?php } ?>
 								<div class="img"><div><div><img src="<?php echo G5_DATA_URL."/product/".$main_photo[0]; ?>" alt="<?php echo $list[$i]['title']; ?>" /></div></div></div>
 								<div class="txt">
@@ -146,7 +146,7 @@
 					<li class="next"><a href="<?php echo G5_URL."/admin/product.php?page=".($page+1)."&category=".$category."&search=".$search; ?>">&gt;</a></li>
 				<?php } ?>
 				<?php if($end_page<=$total_page){?>
-					<li class="next"><a href="<?php echo G5_URL."/admin/product.php?page=".($end_page+1)."&category=".$category."&search=".$search; ?>">&gt;&gt;</a></li>
+					<li class="next"><a href="<?php echo G5_URL."/admin/product.php?page=".($end_page)."&category=".$category."&search=".$search; ?>">&gt;&gt;</a></li>
 				<?php } ?>
 				</ul>
 			</div>

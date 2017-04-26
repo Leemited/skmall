@@ -7,6 +7,7 @@ if(!$category){
 if(!$id)
 	alert('잘못된 접근입니다.');
 
+set_cookie();
 //조회수 업
 sql_query("update `gsw_product` set `hit` = `hit`+1 where `id` = {$id}");
 
@@ -116,6 +117,13 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                         <li class="last" onclick="location.href='#review';" >개통후기 [<?php echo $reviewCnt;?>]</li>
                     </ul>
                     <div>
+                        <!--<ul>
+                            <li>1</li>
+                            <li>2</li>
+                            <li>3</li>
+                            <li>4</li>
+                            <li>5</li>
+                        </ul>-->
                         <table style="margin-top:20px;">
                             <tr>
                                 <th>요금제명</th>

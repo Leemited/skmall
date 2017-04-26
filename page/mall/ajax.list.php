@@ -4,15 +4,32 @@ $code=sql_fetch("SELECT * FROM  `gsw_code` where `code`='{$member['mb_2']}'");
 /*if(!$category){
 	$category=$cate[0]['cate'];
 }*/
+$ordertype = $_REQUEST["orderType"];
+
+
 $where="";
 if($category!=""){
 	$where.="and `category` like '%{$category}%'";
 }
+
+if($ordertype) {
+    if($ordertype=="sam"){
+        $where .= " and `en_title` like '%SM%' ";
+    }else if($ordertype=="lg"){
+        $where .= " and `en_title` like '%LG%' ";
+    }else if($ordertype=="apple"){
+        $where .= " and `en_title` like '%IPHONE%' ";
+    }else {
+        $order = "order by `" . $ordertype . "` desc";
+    }
+}
+
+
 if(!$page)
 	$page=1;
 $rows=12;
 $start=($page-1)*$rows;
-$sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' {$where} order by `order` asc, `id` desc limit {$start},{$rows}";
+$sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' {$where} {$order} limit {$start},{$rows}";
 $query=sql_query($sql);
 $j=0;
 while($data=sql_fetch_array($query)){

@@ -66,7 +66,7 @@ $gsw_config=sql_fetch("select * from `gsw_config`");
     <div class="width-fixed wrap">
         <div>
             <?php //for($i=0;$i<count($cate);$i++){
-            $sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' order by `id` desc limit 0,6";
+            $sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' order by `order` ,`id` desc limit 0,6";
             $list=array();
             $query=sql_query($sql);
             $j=0;
