@@ -2,19 +2,18 @@
 include_once('../../common.php');
 include_once(G5_PATH.'/head.php');
 if(!$category){
-	$category=$cate[0]['cate'];
+    $category=$cate[0]['cate'];
 }
 if(!$id)
-	alert('잘못된 접근입니다.');
+    alert('잘못된 접근입니다.');
 
-set_cookie();
 //조회수 업
 sql_query("update `gsw_product` set `hit` = `hit`+1 where `id` = {$id}");
 
 $sql="select *,(select sum(number) from `gsw_sell` as s where p.id=s.product_id and s.status<>'-1') as sell from `gsw_product` as p where `show`<>'0' and `id`='{$id}'";
 $view=sql_fetch($sql);
 if(!$view['id'])
-	alert('제품을 찾을 수 없습니다.');
+    alert('제품을 찾을 수 없습니다.');
 
 $url = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
 $gsw_config=sql_fetch("select * from `gsw_config`");
@@ -39,9 +38,9 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
 ?>
 
 <section class="section01">
-	<article id="mall_view">
-		<div class="width-fixed">
-			<div class="top">
+    <article id="mall_view">
+        <div class="width-fixed">
+            <div class="top">
                 <div class="txt">
                     <div class="info">
                         <div class="title">
@@ -56,57 +55,60 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                         </div>
                     </div>
                 </div>
-				<div class="clear"></div>
-				<div class="choiceColor" >
-					<h3>가입유형</h3>
-					<ul class="regitype">
-						<li><label><input type="radio" name="regitype" id="regitype" value="1" /> 신규가입</label></li>
-						<li><label><input type="radio" name="regitype" id="regitype" value="2" /> 번호이동</label></li>
-						<li><label><input type="radio" name="regitype" id="regitype" value="3" /> 기기변경</label></li>
-					</ul>
-				</div>
-				<div class="img datainput">
+                <div class="clear"></div>
 
-				</div>
-                <?php
-                if($view["color_title"]){
-                ?>
-                <div class="choiceColor">
-                    <h3>색상선택</h3>
-                    <ul class="colorsel">
-                        <?php
-                        $color = explode(",",$view["color_title"]);
-                        for($i=0;$i<count($color);$i++){
-                            ?>
-                            <li><input type="button"  class="color<?=$i?>" style="border:none;background:#eee;color:#222;border-radius: 3px;padding:10px 13px;" value="<?=$color[$i]?>"></li>
-                            <?php
-                        }
-                        ?>
-                    </ul>
+                <div class="img datainput">
+
                 </div>
-                <?php
-                }
-                ?>
-                <div class="buy">
-                    <div class="btn_group">
-                        <input type="button" value="신청하기" class="lg_btn01 grid_100" onclick="window.open('<?php echo $view["orderlink"]; ?>','_new')"/>
+                <div class="detailInfo">
+                    <div class="choiceColor" >
+                        <h3>가입유형</h3>
+                        <ul class="regitype">
+                            <li><label><input type="radio" name="regitype" id="regitype" value="1" /> 신규가입</label></li>
+                            <li><label><input type="radio" name="regitype" id="regitype" value="2" /> 번호이동</label></li>
+                            <li><label><input type="radio" name="regitype" id="regitype" value="3" /> 기기변경</label></li>
+                        </ul>
+                    </div>
+                    <?php
+                    if($view["color_title"]){
+                        ?>
+                        <div class="choiceColor last">
+                            <h3>개통가능색상</h3>
+                            <ul class="colorsel">
+                                <?php
+                                $color = explode(",",$view["color_title"]);
+                                for($i=0;$i<count($color);$i++){
+                                    ?>
+                                    <li><input type="button"  class="color<?=$i?>" style="border:none;background:#eee;color:#222;border-radius: 3px;padding:10px 13px;" value="<?=$color[$i]?>"></li>
+                                    <?php
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <div class="buy">
+                        <div class="btn_group">
+                            <input type="button" value="신청하기" class="lg_btn01 grid_100" onclick="window.open('<?php echo $view["orderlink"]; ?>','_new')"/>
+                        </div>
                     </div>
                 </div>
-			</div>
+            </div>
             <div class="detailView">
                 <table>
-                <?php
-                $specs = explode("||",$view["specinfo"]);
-                for($i=0;$i<count($specs);$i++){
-                    $specinfo = explode("##",$specs[$i]);
+                    <?php
+                    $specs = explode("||",$view["specinfo"]);
+                    for($i=0;$i<count($specs);$i++){
+                        $specinfo = explode("##",$specs[$i]);
+                        ?>
+                        <tr>
+                            <th><?=$specinfo[0]?></th>
+                            <td><?=$specinfo[1]?></td>
+                        </tr>
+                        <?
+                    }
                     ?>
-                    <tr>
-                        <th><?=$specinfo[0]?></th>
-                        <td><?=$specinfo[1]?></td>
-                    </tr>
-                    <?
-                }
-                ?>
                 </table>
                 <div class="viewMenu" >
                     <ul class="tab" id="callplan">
@@ -132,12 +134,12 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                                 <th>SMS</th>
                                 <th>제공데이터</th>
                             </tr>
-                            
-                        <?php
+
+                            <?php
                             $callplans = explode("||",$view["calling_plan"]);
                             for($i=0;$i<count($callplans);$i++){
                                 $callp = explode("##",$callplans[$i]);
-                            ?>
+                                ?>
                                 <tr>
                                     <td><?=$callp[0]?></td>
                                     <td><?=$callp[1]?></td>
@@ -145,9 +147,9 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                                     <td><?=$callp[3]?></td>
                                     <td><?=$callp[4]?></td>
                                 </tr>
-                            <?php 
+                                <?php
                             }
-                        ?>
+                            ?>
                         </table>
                         <img class="card" src="<?php echo G5_IMG_URL?>/card_bg.jpg" alt="카드할인정보">
                     </div>
@@ -194,11 +196,11 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                     </div>
                 </div>
             </div>
-		</div>
-	</article>
+        </div>
+    </article>
 </section>
 <script type="text/javascript">
-	$(document).ready(function () {
+    $(document).ready(function () {
         $.ajax({
             url:"./ajax.product.php",
             method:"POST",
@@ -224,22 +226,22 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
             });
         });
 
-		 $("input[id^=regitype]").each(function () {
+        $("input[id^=regitype]").each(function () {
             $(this).click(function () {
-				$.ajax({
+                $.ajax({
                     url:"./ajax.regitype.php",
                     method:"POST",
                     data:{id:"<?=$id?>",type:$(this).val()},
                     dataType:"html"
                 }).done(function(html) {
-					if(html=="1"){
-						alert("값이 잘못 되었습니다.");
-					}else{
-						$(".btn_group").html(html);
-					}
+                    if(html=="1"){
+                        alert("값이 잘못 되었습니다.");
+                    }else{
+                        $(".btn_group").html(html);
+                    }
                 })
-			})
-		 })
+            })
+        })
 
         $("input[class^=color]").each(function () {
             $(this).click(function () {
@@ -250,11 +252,11 @@ for($i=0; $i<sizeof($mobile_agent); $i++){
                     data:{id:"<?=$id?>",color:num},
                     dataType:"html"
                 }).done(function(html) {
-					if(html=="1"){
-						alert("값이 잘못 되었습니다.");
-					}else{
-						$(".datainput").html(html);
-					}
+                    if(html=="1"){
+                        alert("값이 잘못 되었습니다.");
+                    }else{
+                        $(".datainput").html(html);
+                    }
                 })
             })
         })
